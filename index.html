@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>C4 Nurhak Residence · My Home Architecture</title>
+<link rel="icon" type="image/png" href="images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f5f1ed;
+    --bg-deep: #ece6dd;
+    --card: #efeae3;
+    --accent: #8b6f3d;
+    --accent-soft: #b89868;
+    --ink: #2c2a28;
+    --ink-soft: #6b665e;
+    --line: #5a4a2e;
+    --shadow: 0 30px 80px -20px rgba(44, 42, 40, 0.18);
+    --shadow-soft: 0 8px 30px -10px rgba(44, 42, 40, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  }
+
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 1.4rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(245,241,237,0.95) 0%, rgba(245,241,237,0) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    left: 2.5rem; right: 2.5rem; bottom: 0;
+    height: 1px;
+    background: var(--line);
+    opacity: 0.4;
+  }
+  .brand { display: flex; align-items: center; gap: 0.75rem; }
+  .brand img { height: 64px; width: auto; }
+  .brand-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-left: 1px solid var(--line);
+    padding-left: 0.85rem;
+    line-height: 1.4;
+  }
+  .brand-text strong { display: block; color: var(--ink); font-weight: 600; font-size: 0.78rem; }
+  .header-meta { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft); }
+  .header-meta span { color: var(--accent); font-weight: 500; }
+
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 2.5rem 4rem;
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+  }
+  .hero-side { position: sticky; top: 8rem; align-self: start; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.4rem;
+    font-weight: 500;
+  }
+  .hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.6rem, 5vw, 4.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .hero-sub {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 36ch;
+  }
+  .hero-instructions {
+    display: flex; flex-direction: column; gap: 0.6rem;
+    padding: 1.25rem 1.4rem;
+    background: var(--card);
+    border-left: 2px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+  .hero-instructions span {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-size: 0.78rem; color: var(--ink); letter-spacing: 0.05em;
+  }
+  .hero-instructions span::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .scroll-cue {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .scroll-cue::after {
+    content: ''; width: 60px; height: 1px; background: var(--ink-soft);
+    animation: scrollPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleX(1); opacity: 0.5; }
+    50% { transform: scaleX(1.4); opacity: 1; }
+  }
+
+  /* === PLAN SLIDER (çok katlı) === */
+  .plan-slider { position: relative; width: 100%; margin-left: auto; }
+  .plan-viewport { position: relative; width: 100%; }
+  .plan-slide { display: none; }
+  .plan-slide.active { display: block; animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) backwards; }
+  .plan-stage {
+    position: relative;
+    width: 100%;
+    max-height: 80vh;
+    margin-left: auto;
+  }
+  .plan-img {
+    width: 100%; height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .hotspots { position: absolute; inset: 0; }
+
+  .plan-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 1.4rem;
+  }
+  .plan-nav.hidden { display: none; }
+  .plan-arrow {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+  .plan-arrow:hover { background: var(--accent); color: var(--bg); }
+  .plan-floor-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink);
+    min-width: 8ch;
+    text-align: center;
+  }
+  .plan-floor-label span {
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.2rem;
+  }
+  .plan-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+  .plan-dots.hidden { display: none; }
+  .plan-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  .plan-dot.active { background: var(--accent); transform: scale(1.25); }
+
+  /* === BEACON === */
+  .beacon {
+    position: absolute;
+    width: 0; height: 0;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  .beacon::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 14px; height: 14px;
+    transform: translate(-50%, -50%);
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(44, 42, 40, 0.25);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    z-index: 2;
+  }
+  .beacon::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 14px; height: 14px;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: beaconPulse 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+    z-index: 1;
+  }
+  @keyframes beaconPulse {
+    0% { width: 14px; height: 14px; opacity: 0.7; }
+    100% { width: 50px; height: 50px; opacity: 0; }
+  }
+  .beacon:hover::before {
+    width: 22px; height: 22px;
+    background: var(--ink);
+    box-shadow: 0 4px 14px rgba(44, 42, 40, 0.4);
+  }
+  .beacon:hover::after { animation-play-state: paused; opacity: 0; }
+
+  .beacon-tooltip {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -180%) scale(0.9);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.55rem 1.1rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    pointer-events: none;
+    box-shadow: 0 12px 32px -8px rgba(44, 42, 40, 0.4);
+    z-index: 3;
+  }
+  .beacon-tooltip::after {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: -5px;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px; height: 10px;
+    background: var(--ink);
+  }
+  .beacon-tooltip-num {
+    color: var(--accent-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    margin-right: 0.5rem;
+    text-transform: none;
+    font-size: 0.85rem;
+    letter-spacing: 0;
+    vertical-align: -1px;
+  }
+  .beacon:hover .beacon-tooltip {
+    opacity: 1;
+    transform: translate(-50%, -210%) scale(1);
+  }
+
+  .room-index {
+    padding: 6rem 2.5rem;
+    background: var(--bg-deep);
+    position: relative;
+  }
+  .room-index::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 2.5rem; right: 2.5rem;
+    height: 1px;
+    background: var(--line);
+    opacity: 0.4;
+  }
+  .index-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+  }
+  .index-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .index-title em { font-style: italic; color: var(--accent); }
+  .index-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .room-card {
+    background: var(--bg);
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-soft);
+  }
+  .room-card-img {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+    background: var(--card);
+  }
+  .room-card-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  .room-card:hover .room-card-img img { transform: scale(1.06); }
+  .room-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .room-card-floor {
+    position: absolute;
+    top: 0.9rem; left: 0.9rem;
+    background: rgba(44, 42, 40, 0.82);
+    color: var(--bg);
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.7rem;
+    font-weight: 500;
+    z-index: 2;
+  }
+  .room-card-body { padding: 1.5rem 1.4rem 1.6rem; position: relative; }
+  .room-card-num {
+    position: absolute;
+    top: -1.2rem; right: 1.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--accent);
+    background: var(--bg);
+    padding: 0 0.6rem;
+    line-height: 1;
+    font-weight: 300;
+    font-style: italic;
+  }
+  .room-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.9rem;
+    letter-spacing: 0.01em;
+  }
+  .room-card-meta {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    align-items: center;
+  }
+  .room-card-meta strong { color: var(--accent); font-weight: 500; }
+  .room-card-arrow {
+    position: absolute;
+    bottom: 1.6rem; right: 1.4rem;
+    width: 34px; height: 34px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    transition: all 0.4s ease;
+    font-size: 1rem;
+  }
+  .room-card:hover .room-card-arrow {
+    background: var(--accent);
+    color: var(--bg);
+    transform: rotate(-45deg);
+  }
+
+  /* MODAL */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 18, 15, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    overflow-y: auto;
+  }
+  .modal.open { display: block; opacity: 1; }
+  .modal-inner { min-height: 100%; padding: 2rem; display: flex; flex-direction: column; }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(245,241,237,0.15);
+    margin-bottom: 2rem;
+  }
+  .modal-title-block { color: var(--bg); }
+  .modal-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .modal-tr {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,241,237,0.55);
+  }
+  .modal-close {
+    background: transparent;
+    border: 1px solid rgba(245,241,237,0.3);
+    color: var(--bg);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  .modal-close:hover {
+    background: var(--bg);
+    color: var(--ink);
+    border-color: var(--bg);
+    transform: rotate(90deg);
+  }
+  .modal-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    flex: 1;
+  }
+  .modal-sidebar { color: var(--bg); }
+  .modal-plan {
+    background: var(--card);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .modal-plan img { width: 100%; display: block; }
+  .modal-plan-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-top: 0.8rem;
+    text-align: center;
+  }
+  .modal-tabs { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .modal-tab {
+    background: rgba(245,241,237,0.04);
+    border: 1px solid rgba(245,241,237,0.12);
+    color: var(--bg);
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-tab:hover { border-color: var(--accent); background: rgba(139,111,61,0.1); }
+  .modal-tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .modal-tab-count { font-size: 0.7rem; opacity: 0.7; }
+  .modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    align-content: start;
+  }
+  .gallery-item {
+    cursor: zoom-in;
+    overflow: hidden;
+    background: var(--card);
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+    display: block;
+  }
+  .gallery-item:hover img { transform: scale(1.04); }
+
+  /* LIGHTBOX - CREAM THEME */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(245, 241, 237, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .lightbox.open { display: flex; opacity: 1; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 88vh;
+    object-fit: contain;
+    box-shadow: 0 30px 100px -10px rgba(44, 42, 40, 0.35);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .lightbox-close { top: 2rem; right: 2rem; }
+  .lightbox-prev { left: 2rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next { right: 2rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%; transform: translateX(-50%);
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+  .lightbox-counter span { color: var(--accent); font-weight: 500; }
+
+  .site-footer {
+    padding: 5rem 2.5rem 3rem;
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+  }
+  .site-footer img {
+    height: 130px;
+    margin-bottom: 2rem;
+    filter: invert(1) brightness(2);
+  }
+  .footer-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .footer-tag em { color: var(--accent-soft); font-style: italic; }
+  .footer-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(245,241,237,0.45);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,241,237,0.1);
+  }
+
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-side { position: static; }
+    .modal-content { grid-template-columns: 1fr; }
+    .modal-sidebar { order: 2; }
+    .site-header { padding: 1rem 1.25rem; }
+    .room-index { padding: 4rem 1.5rem; }
+    .index-header { flex-direction: column; gap: 1rem; align-items: start; }
+  }
+  @media (max-width: 640px) {
+    .modal-inner { padding: 1.25rem; }
+    .modal-gallery { grid-template-columns: 1fr; }
+    .lightbox-prev { left: 1rem; }
+    .lightbox-next { right: 1rem; }
+    .brand-text { display: none; }
+    .brand img { height: 52px; }
+    .plan-arrow { width: 40px; height: 40px; }
+  }
+
+  .fade-in { animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.3, 1) backwards; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================= KATALOG EKLENTİSİ ================= */
+  :root {
+    --paper: #fbf9f6;
+    --hair: rgba(90, 74, 46, 0.22);
+    --hair-strong: rgba(90, 74, 46, 0.45);
+    --on-dark: #f5f1ed;
+    --on-dark-soft: rgba(245, 241, 237, 0.6);
+    --on-dark-hair: rgba(245, 241, 237, 0.16);
+    --danger: #9a3b2a;
+    --ok: #5f6b4a;
+  }
+  body { background: var(--bg); color: var(--ink); }
+
+  .site-nav { display: flex; gap: 1.8rem; }
+  .site-nav button {
+    background: none; border: 0; padding: 0.3rem 0; cursor: pointer;
+    font: 500 0.66rem/1 'Manrope', sans-serif; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink-soft); border-bottom: 1px solid transparent; transition: all .3s ease;
+  }
+  .site-nav button:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 2.5rem; }
+
+  .room-card-meta { flex-wrap: wrap; row-gap: 0.4rem; padding-right: 2.6rem; }
+
+  /* ---------- etiket çipi ---------- */
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font: 500 0.6rem/1 'Manrope', sans-serif; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 0.42rem 0.62rem; border: 1px solid var(--hair-strong); color: var(--accent);
+    background: transparent; border-radius: 2px; white-space: nowrap;
+  }
+  button.chip { cursor: pointer; transition: all .25s ease; }
+  button.chip:hover { border-color: var(--accent); background: rgba(139,111,61,0.08); }
+  button.chip.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .chip .n { opacity: 0.6; font-weight: 400; letter-spacing: 0.05em; }
+  .chip .x { font-size: 0.8rem; line-height: 0; opacity: 0.7; cursor: pointer; letter-spacing: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .on-dark .chip { color: var(--accent-soft); border-color: var(--on-dark-hair); }
+  .on-dark button.chip:hover { border-color: var(--accent-soft); background: rgba(184,152,104,0.12); }
+  .on-dark button.chip.on { background: var(--accent); color: var(--on-dark); border-color: var(--accent); }
+
+  .on-dark .mat-card .chip { color: var(--accent); border-color: var(--hair-strong); }
+  section[id] { scroll-margin-top: 5.5rem; }
+  body.lb-open .edit-bar, body.lb-open .mode-pill { display: none !important; }
+
+  /* ---------- düğmeler ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    font: 500 0.66rem/1 'Manrope', sans-serif; letter-spacing: 0.24em; text-transform: uppercase;
+    padding: 0.95rem 1.4rem; border: 1px solid var(--accent); background: var(--accent); color: var(--bg);
+    cursor: pointer; transition: all .25s ease; border-radius: 0; min-height: 44px;
+  }
+  .btn:hover { background: var(--ink); border-color: var(--ink); }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btn.ghost:hover { background: var(--accent); color: var(--bg); }
+  .btn.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+  .btn.danger:hover { background: var(--danger); color: var(--bg); }
+  .btn.small { padding: 0.6rem 0.9rem; min-height: 36px; font-size: 0.6rem; }
+  .on-dark .btn.ghost { color: var(--on-dark); border-color: var(--on-dark-hair); }
+  .on-dark .btn.ghost:hover { background: var(--on-dark); color: var(--ink); }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .gallery-item:focus-visible {
+    outline: 2px solid var(--accent-soft); outline-offset: 2px;
+  }
+
+  .edit-only { display: none !important; }
+  body.edit-mode .edit-only { display: revert !important; }
+  body.edit-mode .edit-only.flex { display: flex !important; }
+
+  /* ---------- form alanları ---------- */
+  .field { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .field > span, .eyebrow {
+    font: 500 0.6rem/1.2 'Manrope', sans-serif; letter-spacing: 0.32em; text-transform: uppercase; color: var(--accent);
+  }
+  .field input, .field select, .field textarea, .tag-input {
+    width: 100%; min-width: 0; font: 300 0.95rem/1.5 'Manrope', sans-serif; color: var(--ink);
+    background: transparent; border: 0; border-bottom: 1px solid var(--hair-strong); padding: 0.55rem 0; border-radius: 0;
+  }
+  .field textarea { resize: vertical; min-height: 5.5rem; border: 1px solid var(--hair-strong); padding: 0.75rem 0.85rem; background: var(--paper); }
+  .field select { cursor: pointer; }
+  .on-dark .field input, .on-dark .field textarea, .on-dark .tag-input { color: var(--on-dark); border-color: var(--on-dark-hair); }
+  .on-dark .field textarea { background: rgba(245,241,237,0.04); }
+  .on-dark .field > span { color: var(--accent-soft); }
+
+  /* ---------- etiket girişi ---------- */
+  .tag-input { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; position: relative; cursor: text; }
+  .tag-input input { flex: 1; min-width: 9rem; border: 0; background: transparent; font: inherit; color: inherit; padding: 0.35rem 0; outline: none; }
+  .tag-suggest {
+    position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 20;
+    background: var(--paper); border: 1px solid var(--hair-strong); box-shadow: var(--shadow-soft);
+    max-height: 15rem; overflow-y: auto; color: var(--ink);
+  }
+  .tag-suggest button {
+    display: flex; justify-content: space-between; width: 100%; text-align: left; gap: 1rem;
+    padding: 0.7rem 0.9rem; background: none; border: 0; cursor: pointer; font: 400 0.85rem 'Manrope', sans-serif; color: var(--ink);
+  }
+  .tag-suggest button small { color: var(--ink-soft); font-size: 0.7rem; }
+  .tag-suggest button.hl, .tag-suggest button:hover { background: var(--bg-deep); }
+  .tag-suggest .new { color: var(--accent); }
+  .tag-quick { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-top: 0.4rem; }
+  .tag-quick > em { font: italic 400 0.85rem 'Cormorant Garamond', serif; color: var(--ink-soft); margin-right: 0.3rem; }
+  .on-dark .tag-quick > em { color: var(--on-dark-soft); }
+
+  /* ---------- modal görünüm seçici ---------- */
+  .view-switch { display: flex; gap: 2rem; margin-top: 1.4rem; flex-wrap: wrap; }
+  .view-switch button {
+    background: none; border: 0; border-bottom: 1px solid transparent; padding: 0.35rem 0; cursor: pointer;
+    font: 500 0.68rem/1 'Manrope', sans-serif; letter-spacing: 0.3em; text-transform: uppercase; color: var(--on-dark-soft);
+    transition: all .25s ease; min-height: 32px;
+  }
+  .view-switch button span { color: var(--accent-soft); margin-left: 0.35rem; letter-spacing: 0.05em; }
+  .view-switch button:hover { color: var(--on-dark); }
+  .view-switch button.active { color: var(--on-dark); border-bottom-color: var(--accent-soft); }
+  .modal-main { min-width: 0; }
+  .modal-sidebar .sub-label { font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent-soft); margin-bottom: 0.7rem; }
+
+  .gallery-item .badges { position: absolute; left: 0.7rem; bottom: 0.7rem; display: flex; gap: 0.35rem; z-index: 2; }
+  .badge {
+    background: rgba(20, 18, 15, 0.78); color: var(--on-dark); font: 500 0.58rem/1 'Manrope', sans-serif;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 0.4rem 0.55rem; backdrop-filter: blur(4px);
+  }
+  .badge b { color: var(--accent-soft); font-weight: 600; margin-right: 0.3rem; }
+
+  /* modal içi malzeme ve not listeleri */
+  .pane-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+  .pane-head p { color: var(--on-dark-soft); font-size: 0.85rem; max-width: 60ch; }
+  .mat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+  .mat-card {
+    background: var(--paper); border: 0; padding: 0; text-align: left; cursor: pointer; color: var(--ink);
+    display: flex; flex-direction: column; transition: transform .4s cubic-bezier(0.2,0.8,0.3,1), box-shadow .4s ease; min-width: 0;
+    font-family: inherit;
+  }
+  .mat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .mat-card .ph { aspect-ratio: 4/3; background: var(--card); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .mat-card .ph img { width: 100%; height: 100%; object-fit: contain; }
+  .mat-card .ph em { font: italic 400 1rem 'Cormorant Garamond', serif; color: var(--ink-soft); }
+  .mat-card .ph .badge { position: absolute; left: 0.6rem; top: 0.6rem; }
+  .mat-card .bd { padding: 1.1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+  .mat-card .ttl { font: 400 1.18rem/1.2 'Cormorant Garamond', serif; overflow-wrap: anywhere; }
+  .mat-card .where { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--ink-soft); line-height: 1.5; }
+  .mat-card .chips { margin-top: auto; padding-top: 0.3rem; }
+  .add-card {
+    border: 1px dashed var(--on-dark-hair); background: transparent; color: var(--on-dark-soft); cursor: pointer; min-height: 220px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem;
+    font: 500 0.66rem 'Manrope', sans-serif; letter-spacing: 0.28em; text-transform: uppercase; transition: all .25s ease;
+  }
+  .add-card b { font: 300 2.4rem/1 'Cormorant Garamond', serif; color: var(--accent-soft); }
+  .add-card:hover { border-color: var(--accent-soft); color: var(--on-dark); }
+  .library .add-card { border-color: var(--hair-strong); color: var(--ink-soft); }
+  .library .add-card:hover { border-color: var(--accent); color: var(--accent); }
+
+  .note-list { display: flex; flex-direction: column; gap: 0.8rem; }
+  .note {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: start;
+    padding: 1rem 1.1rem; border-left: 2px solid var(--accent); background: var(--paper); color: var(--ink);
+  }
+  .note .thumb { width: 72px; aspect-ratio: 4/3; object-fit: cover; cursor: zoom-in; display: block; border: 0; padding: 0; background: var(--card); }
+  .note .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .note .txt { font-size: 0.92rem; line-height: 1.6; min-width: 0; overflow-wrap: anywhere; white-space: pre-line; }
+  .note .txt strong { font-weight: 600; }
+  .note .meta { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-top: 0.6rem; }
+  .note .where { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); margin-right: 0.4rem; }
+  .note .acts { display: flex; gap: 0.3rem; }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--hair-strong); background: transparent; color: var(--accent);
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all .25s ease;
+  }
+  .icon-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .on-dark .note { background: rgba(245,241,237,0.05); color: var(--on-dark); border-left-color: var(--accent-soft); }
+  .on-dark .note .where { color: var(--on-dark-soft); }
+  .on-dark .icon-btn { border-color: var(--on-dark-hair); color: var(--accent-soft); }
+
+  .composer { display: flex; flex-direction: column; gap: 1rem; padding: 1.2rem; border: 1px solid var(--hair); background: var(--paper); margin-bottom: 1.4rem; }
+  .on-dark .composer { background: rgba(245,241,237,0.04); border-color: var(--on-dark-hair); }
+  .composer .row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .composer .hint { font-size: 0.75rem; color: var(--ink-soft); }
+  .on-dark .composer .hint { color: var(--on-dark-soft); }
+  .empty-note { font: italic 400 1.1rem/1.5 'Cormorant Garamond', serif; color: var(--ink-soft); padding: 1.5rem 0; }
+  .on-dark .empty-note { color: var(--on-dark-soft); }
+
+  /* ---------- lightbox paneli ---------- */
+  .lb-toggle {
+    position: absolute; right: 2rem; bottom: 2rem; z-index: 3;
+    font: 500 0.62rem/1 'Manrope', sans-serif; letter-spacing: 0.24em; text-transform: uppercase;
+    background: var(--ink); color: var(--bg); border: 0; padding: 0.95rem 1.2rem; cursor: pointer; min-height: 44px;
+  }
+  .lb-toggle b { color: var(--accent-soft); margin-left: 0.4rem; }
+  .lb-panel {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 400px; max-width: 100%;
+    background: var(--paper); border-left: 1px solid var(--hair); overflow-y: auto; z-index: 4;
+    padding: 2rem 1.6rem 3rem; display: none; flex-direction: column; gap: 1.6rem;
+  }
+  .lightbox.panel-open .lb-panel { display: flex; }
+  .lightbox.panel-open img { max-width: calc(100vw - 400px - 9rem); }
+  .lightbox.panel-open .lightbox-next { right: calc(400px + 2rem); }
+  .lightbox.panel-open .lightbox-close { right: calc(400px + 2rem); }
+  .lightbox.panel-open .lb-toggle { right: calc(400px + 2rem); }
+  .lightbox.panel-open .lightbox-counter { left: calc((100vw - 400px) / 2); }
+  .lb-panel h4 { font: 300 1.6rem/1.1 'Cormorant Garamond', serif; }
+  .lb-panel .sec { display: flex; flex-direction: column; gap: 0.8rem; }
+  .lb-panel .sec-h { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; border-bottom: 1px solid var(--hair); padding-bottom: 0.6rem; }
+  .lb-panel .note { grid-template-columns: 1fr auto; background: var(--bg); }
+  .mini-mat { display: grid; grid-template-columns: 56px 1fr auto; gap: 0.8rem; align-items: center; padding: 0.5rem; background: var(--bg); border: 0; text-align: left; cursor: pointer; width: 100%; font-family: inherit; color: var(--ink); }
+  .mini-mat:hover { background: var(--bg-deep); }
+  .mini-mat .im { width: 56px; aspect-ratio: 1; background: var(--card); overflow: hidden; }
+  .mini-mat .im img { width: 100%; height: 100%; object-fit: cover; }
+  .mini-mat .t { font: 400 1rem/1.2 'Cormorant Garamond', serif; min-width: 0; overflow-wrap: anywhere; }
+  .mini-mat .t small { display: block; font: 400 0.68rem/1.4 'Manrope', sans-serif; color: var(--ink-soft); letter-spacing: 0.04em; }
+
+  /* ---------- kütüphane ve not bölümleri ---------- */
+  .library, .notes-board { padding: 6rem 2.5rem; position: relative; }
+  .library { background: var(--bg); }
+  .notes-board { background: var(--bg-deep); }
+  .library::before, .notes-board::before { content: ''; position: absolute; top: 0; left: 2.5rem; right: 2.5rem; height: 1px; background: var(--line); opacity: 0.4; }
+  .lib-intro { color: var(--ink-soft); font-size: 0.92rem; max-width: 62ch; margin-top: 1rem; }
+  .filters { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: 1.6rem 2rem; align-items: end; margin-bottom: 1.6rem; }
+  .tag-filter { display: flex; flex-direction: column; gap: 0.8rem; padding: 1.3rem 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); margin-bottom: 1.6rem; }
+  .tag-filter .tf-h { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .seg { display: inline-flex; border: 1px solid var(--hair-strong); }
+  .seg button { background: none; border: 0; padding: 0.5rem 0.8rem; cursor: pointer; font: 500 0.58rem 'Manrope', sans-serif; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); min-height: 32px; }
+  .seg button.on { background: var(--ink); color: var(--bg); }
+  .result-line { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+  .result-line .count { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-soft); }
+  .result-line .count b { color: var(--accent); font-weight: 600; }
+  .library .mat-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+  .library .mat-card { box-shadow: var(--shadow-soft); }
+  .note-group { margin-bottom: 2.6rem; }
+  .note-group h3 { font: 300 1.7rem/1.1 'Cormorant Garamond', serif; display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .note-group h3 small { font: 500 0.6rem 'Manrope', sans-serif; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); }
+  .note-group h3 button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; text-align: left; }
+  .note-group h3 button:hover { color: var(--accent); }
+  .board-cols { columns: 2 420px; column-gap: 2.5rem; }
+  .board-cols .note-group { break-inside: avoid; }
+
+  /* ---------- sayfa (sheet) diyaloğu ---------- */
+  .sheet {
+    position: fixed; inset: 0; z-index: 400; background: rgba(20, 18, 15, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 4vh 1rem;
+  }
+  .sheet-panel { background: var(--bg); width: min(900px, 100%); box-shadow: var(--shadow); position: relative; padding: 2.6rem 2.6rem 2.2rem; animation: fadeUp .45s cubic-bezier(0.2,0.8,0.3,1) backwards; }
+  .sheet-panel.narrow { width: min(620px, 100%); }
+  .sheet-head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--hair); margin-bottom: 1.8rem; }
+  .sheet-head h3 { font: 300 clamp(1.7rem, 3vw, 2.3rem)/1.05 'Cormorant Garamond', serif; margin-top: 0.5rem; overflow-wrap: anywhere; }
+  .sheet-close { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--hair-strong); background: transparent; cursor: pointer; color: var(--ink); font-size: 1rem; flex-shrink: 0; transition: all .3s ease; }
+  .sheet-close:hover { background: var(--ink); color: var(--bg); transform: rotate(90deg); }
+  .sheet-body { display: flex; flex-direction: column; gap: 1.6rem; }
+  .sheet-foot { display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--hair); align-items: center; }
+  .sheet-foot .r { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-left: auto; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2rem; }
+
+  .det { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.2rem; }
+  .det-main { background: var(--card); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .det-main img { width: 100%; height: 100%; object-fit: contain; }
+  .det-thumbs { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+  .det-thumbs button { width: 72px; border: 1px solid transparent; padding: 0; background: var(--card); cursor: pointer; display: flex; flex-direction: column; }
+  .det-thumbs button img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .det-thumbs button span { font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem; color: var(--ink-soft); }
+  .det-thumbs button.on { border-color: var(--accent); }
+  .det-info { display: flex; flex-direction: column; gap: 1.2rem; min-width: 0; }
+  .kv { display: flex; flex-direction: column; gap: 0.3rem; }
+  .kv div { font-size: 0.92rem; overflow-wrap: anywhere; white-space: pre-line; }
+  .room-links { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .room-links button { background: none; border: 0; border-bottom: 1px solid var(--hair-strong); padding: 0.15rem 0; cursor: pointer; font: 400 1rem 'Cormorant Garamond', serif; color: var(--ink); margin-right: 0.6rem; }
+  .room-links button:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .render-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 0.5rem; }
+  .render-strip button { border: 2px solid transparent; padding: 0; background: var(--card); cursor: pointer; aspect-ratio: 4/3; overflow: hidden; position: relative; }
+  .render-strip button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .render-strip button.on { border-color: var(--accent); }
+  .render-strip button.on::after { content: '✓'; position: absolute; top: 4px; right: 4px; background: var(--accent); color: var(--bg); width: 20px; height: 20px; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+  .source { font-size: 0.72rem; color: var(--ink-soft); border-top: 1px solid var(--hair); padding-top: 0.9rem; }
+
+  .drop {
+    border: 1px dashed var(--hair-strong); padding: 1.4rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;
+    cursor: pointer; color: var(--ink-soft); font-size: 0.85rem; transition: all .25s ease; background: var(--paper);
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); color: var(--accent); }
+  .drop b { font: italic 400 1.2rem 'Cormorant Garamond', serif; color: var(--accent); }
+  .up-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.7rem; }
+  .up-item { display: flex; flex-direction: column; gap: 0.35rem; position: relative; }
+  .up-item img { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--card); }
+  .up-item select { font: 400 0.72rem 'Manrope', sans-serif; border: 1px solid var(--hair); background: var(--paper); padding: 0.35rem; color: var(--ink); }
+  .up-item .rm { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: rgba(20,18,15,0.75); color: var(--on-dark); cursor: pointer; }
+  .room-pick { display: flex; flex-direction: column; gap: 0.8rem; }
+  .room-pick .fl { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+  .room-pick .fl em { font: italic 400 0.95rem 'Cormorant Garamond', serif; color: var(--ink-soft); width: 7.5rem; }
+
+  .tm-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 0.8rem; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid var(--hair); }
+  .tm-row input { font: 400 0.95rem 'Manrope', sans-serif; border: 0; border-bottom: 1px solid var(--hair-strong); background: transparent; padding: 0.35rem 0; color: var(--ink); min-width: 0; }
+  .tm-row .n { font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.1em; white-space: nowrap; }
+  .confirm-line { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; color: var(--danger); font-size: 0.85rem; }
+
+  /* ---------- ekip modu çubuğu ---------- */
+  .edit-bar {
+    position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); z-index: 350;
+    display: flex; align-items: center; gap: 1rem; background: var(--ink); color: var(--on-dark); padding: 0.55rem 0.6rem 0.55rem 1.2rem;
+    box-shadow: 0 18px 50px -12px rgba(20,18,15,0.55); max-width: calc(100vw - 2rem); flex-wrap: wrap; justify-content: center;
+  }
+  .edit-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-soft); flex-shrink: 0; }
+  .edit-bar .lbl { font: 500 0.6rem 'Manrope', sans-serif; letter-spacing: 0.26em; text-transform: uppercase; }
+  .edit-bar .st { font-size: 0.72rem; color: var(--on-dark-soft); }
+  .edit-bar .btn { min-height: 36px; padding: 0.6rem 0.9rem; font-size: 0.58rem; }
+  .edit-bar .btn.ghost { color: var(--on-dark); border-color: var(--on-dark-hair); }
+  .edit-bar .btn.ghost:hover { background: var(--on-dark); color: var(--ink); }
+  .mode-pill {
+    position: fixed; right: calc(1.2rem + env(safe-area-inset-right, 0px)); bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); z-index: 350;
+    background: var(--paper); color: var(--accent); border: 1px solid var(--accent); padding: 0.75rem 1rem; cursor: pointer;
+    font: 500 0.6rem 'Manrope', sans-serif; letter-spacing: 0.24em; text-transform: uppercase; box-shadow: var(--shadow-soft); min-height: 44px;
+  }
+  .mode-pill:hover { background: var(--accent); color: var(--bg); }
+  body.edit-mode .mode-pill { display: none; }
+  body:not(.edit-mode) .edit-bar { display: none; }
+  .toast {
+    position: fixed; left: 50%; top: calc(6.5rem + env(safe-area-inset-top, 0px)); transform: translateX(-50%); z-index: 500;
+    background: var(--ink); color: var(--on-dark); padding: 0.8rem 1.2rem; font-size: 0.8rem; letter-spacing: 0.04em;
+    box-shadow: var(--shadow); max-width: calc(100vw - 2rem);
+  }
+
+  @media (max-width: 1100px) { .site-nav { display: none; } }
+  @media (max-width: 980px) {
+    .library, .notes-board { padding: 4rem 1.5rem; }
+    .library::before, .notes-board::before { left: 1.5rem; right: 1.5rem; }
+    .filters { grid-template-columns: 1fr 1fr; }
+    .filters .field:first-child { grid-column: 1 / -1; }
+    .det { grid-template-columns: 1fr; }
+    .lightbox.panel-open img { max-width: 92vw; max-height: 38vh; }
+    .lightbox.panel-open { align-items: flex-start; padding-top: 5.5rem; }
+    .lb-panel { top: auto; left: 0; width: 100%; height: 52vh; border-left: 0; border-top: 1px solid var(--hair); padding: 1.4rem 1.25rem 2.5rem; }
+    .lightbox.panel-open .lightbox-next, .lightbox.panel-open .lightbox-prev { top: calc(5.5rem + 19vh); }
+    .lightbox.panel-open .lightbox-next, .lightbox.panel-open .lightbox-close { right: 1rem; }
+    .lightbox.panel-open .lightbox-close { top: 1rem; }
+    .lightbox.panel-open .lb-toggle { right: 1rem; bottom: calc(52vh + 0.8rem); }
+    .lightbox.panel-open .lightbox-counter { display: none; }
+  }
+  @media (max-width: 640px) {
+    .header-right .header-meta { display: none; }
+    .sheet { padding: 0; }
+    .sheet-panel { padding: 1.6rem 1.25rem 1.6rem; min-height: 100%; }
+    .grid2, .filters { grid-template-columns: 1fr; }
+    .note { grid-template-columns: 1fr auto; }
+    .note .thumb { grid-column: 1 / -1; width: 100%; max-width: 220px; }
+    .lb-toggle { right: 1rem; bottom: 1rem; }
+    .lightbox-close { top: 1rem; right: 1rem; }
+    .view-switch { gap: 1.3rem; }
+    .edit-bar { gap: 0.5rem; padding: 0.5rem; bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px)); }
+    .edit-bar .st { display: none; }
+    .board-cols { columns: 1; }
+    .tm-row { grid-template-columns: 1fr auto; }
+    .tm-row .n { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .note { grid-template-columns: auto minmax(0, 1fr); }
+  .note.no-thumb { grid-template-columns: minmax(0, 1fr); }
+  .lb-panel .note { grid-template-columns: minmax(0, 1fr); }
+  @media (max-width: 640px) { .note { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">
+    <img src="images/logo.png" alt="My Home Architecture" />
+    <div class="brand-text">
+      <strong>MY HOME ARCHITECTURE</strong>
+      Interior · Architecture · Design
+    </div>
+  </div>
+  <div class="header-right">
+    <nav class="site-nav" aria-label="Sections">
+      <button type="button" data-go="hero">Plan</button>
+      <button type="button" data-go="rooms">Spaces</button>
+      <button type="button" data-go="library">Materials</button>
+      <button type="button" data-go="notes">Notes</button>
+    </nav>
+    <div class="header-meta"><span>C4 NURHAK RESIDENCE</span> &nbsp;·&nbsp; PRESENTATION 2026</div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-side">
+    <div class="hero-tag">Concept Presentation</div>
+    <h1 class="hero-title"><em>C4 Nurhak Residence</em></h1>
+    <p class="hero-sub">A residence of thoughtfully designed spaces. Explore each space through the floor plan — every area opens onto its own atmosphere, materials and light.</p>
+    <div class="hero-instructions">
+      <span>Hover over the points to see the room name</span>
+      <span>Click any point to open its gallery</span>
+      <span>Or scroll down to see all spaces</span>
+    </div>
+    <div class="scroll-cue">EXPLORE</div>
+  </div>
+  <div class="plan-slider" id="planSlider">
+    <div class="plan-viewport" id="planViewport"></div>
+    <div class="plan-nav" id="planNav">
+      <button class="plan-arrow" id="planPrev" aria-label="Previous floor">‹</button>
+      <div class="plan-floor-label" id="planFloorLabel"></div>
+      <button class="plan-arrow" id="planNext" aria-label="Next floor">›</button>
+    </div>
+    <div class="plan-dots" id="planDots"></div>
+  </div>
+</section>
+
+<section class="room-index" id="rooms">
+  <div class="index-header">
+    <h2 class="index-title">All <em>Spaces</em></h2>
+    <div class="index-meta" id="indexMeta"></div>
+  </div>
+  <div class="room-grid" id="roomGrid"></div>
+</section>
+
+<section class="library" id="library">
+  <div class="index-header">
+    <div>
+      <h2 class="index-title">Material <em>Library</em></h2>
+      <p class="lib-intro">Every material, fabric and wallpaper selection in the project. Tap tags to filter by one or more of them, and open a selection to see the spaces and renders where it is used.</p>
+    </div>
+    <div class="index-meta" id="libMeta"></div>
+  </div>
+  <div class="filters">
+    <label class="field"><span>Search</span><input id="libQ" type="search" placeholder="Product, brand, code…" autocomplete="off" /></label>
+    <label class="field"><span>Space</span><select id="libRoom"></select></label>
+    <button class="btn ghost" id="libClear" type="button">Clear</button>
+  </div>
+  <div class="tag-filter">
+    <div class="tf-h">
+      <span class="eyebrow">Tags</span>
+      <div class="seg" role="group" aria-label="Tag matching">
+        <button type="button" data-mode="all" class="on">All tags</button>
+        <button type="button" data-mode="any">Any tag</button>
+      </div>
+    </div>
+    <div class="chips" id="libTags"></div>
+  </div>
+  <div class="result-line">
+    <div class="count" id="libCount"></div>
+    
+  </div>
+  <div class="mat-grid" id="libGrid"></div>
+</section>
+
+<section class="notes-board" id="notes">
+  <div class="index-header">
+    <div>
+      <h2 class="index-title">Application <em>Notes</em></h2>
+      <p class="lib-intro">Application notes recorded space by space. Tap a space name to open its gallery.</p>
+    </div>
+    <div class="index-meta" id="noteMeta"></div>
+  </div>
+  <div class="filters">
+    <label class="field"><span>Search</span><input id="noteQ" type="search" placeholder="Search notes…" autocomplete="off" /></label>
+    <label class="field"><span>Space</span><select id="noteRoom"></select></label>
+    <button class="btn ghost" id="noteClear" type="button">Clear</button>
+  </div>
+  <div class="tag-filter">
+    <div class="tf-h">
+      <span class="eyebrow">Tags</span>
+      <div class="seg" role="group" aria-label="Tag matching">
+        <button type="button" data-mode="all" class="on">All tags</button>
+        <button type="button" data-mode="any">Any tag</button>
+      </div>
+    </div>
+    <div class="chips" id="noteTags"></div>
+  </div>
+  <div class="result-line">
+    <div class="count" id="noteCount"></div>
+  </div>
+  <div class="board-cols" id="noteBoard"></div>
+</section>
+
+<footer class="site-footer">
+  <img src="images/logo.png" alt="My Home Architecture" />
+  <div class="footer-tag"><em>C4 Nurhak Residence</em></div>
+  <div class="footer-tag" style="font-size: 0.95rem; opacity: 0.7;">Concept Presentation 2026</div>
+  <div class="footer-meta">My Home Architecture &nbsp;·&nbsp; Interior · Architecture · Design</div>
+</footer>
+
+<div class="modal on-dark" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="modal-title-block">
+        <div class="modal-eyebrow" id="modalEyebrow">Space</div>
+        <h3 class="modal-title" id="modalTitle">Room Name</h3>
+        <div class="view-switch" id="viewSwitch" role="tablist" aria-label="Space content">
+          <button type="button" data-view="images" role="tab">Images<span></span></button>
+          <button type="button" data-view="materials" role="tab">Materials<span></span></button>
+          <button type="button" data-view="notes" role="tab">Notes<span></span></button>
+        </div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-content">
+      <aside class="modal-sidebar">
+        <div class="modal-plan" id="modalPlanWrap">
+          <img id="modalPlan" src="" alt="Room plan" />
+          <div class="modal-plan-label">FLOOR PLAN</div>
+        </div>
+        <div class="modal-tabs" id="modalTabs"></div>
+      </aside>
+      <main class="modal-main" id="modalMain"></main>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lightbox-prev" id="lbPrev" aria-label="Previous image">‹</button>
+  <button class="lightbox-next" id="lbNext" aria-label="Next image">›</button>
+  <img id="lbImg" src="" alt="" />
+  <div class="lightbox-counter"><span id="lbIdx">1</span> / <span id="lbTotal">1</span></div>
+  <button class="lb-toggle" id="lbToggle" type="button">Notes · Materials</button>
+  <aside class="lb-panel" id="lbPanel" aria-label="Image notes and materials"></aside>
+</div>
+
+<div id="sheetRoot"></div>
+
+<script>
+/* ================== DATA ================== */
+const FLOORS = [{"name": "Basement Floor", "plan": "images/bodrum_kat/kat_plani.jpg", "rooms": ["bodrum_kat__1_giris", "bodrum_kat__2_mutfak", "bodrum_kat__3_sinema_odasi", "bodrum_kat__4_spor_salonu", "bodrum_kat__5_hamam_sauna_ve_wc", "bodrum_kat__6_mescit", "bodrum_kat__7_salon", "bodrum_kat__8_suit_yatak_odasi", "bodrum_kat__9_erkek_odasi", "bodrum_kat__11_depo_ve_camasir_odasi", "bodrum_kat__12_yardimci_odasi"]}, {"name": "Ground Floor", "plan": "images/zemin_kat/kat_plani.jpg", "rooms": ["zemin_kat__13_salon", "zemin_kat__14_misafir_yatak_odasi"]}, {"name": "First Floor", "plan": "images/1_kat/kat_plani.jpg", "rooms": ["1_kat__15_kiz_cocuk_odasi", "1_kat__16_erkek_cocuk_odasi", "1_kat__17_ebeveyn_yatak_odasi", "1_kat__18_2_li_kiz_cocuk_odasi", "1_kat__19_merdiven_nisli_duvar"]}];
+const DATA = [{"slug": "bodrum_kat__1_giris", "num": "01", "name_tr": "Entrance", "floor": 0, "plan": "images/bodrum_kat/1_giris/plan.jpg", "images": ["images/bodrum_kat/1_giris/img_01.jpeg", "images/bodrum_kat/1_giris/img_02.jpeg", "images/bodrum_kat/1_giris/img_03.png", "images/bodrum_kat/1_giris/img_04.png", "images/bodrum_kat/1_giris/img_05.png", "images/bodrum_kat/1_giris/img_06.png", "images/bodrum_kat/1_giris/img_07.png", "images/bodrum_kat/1_giris/img_08.png"], "subs": [], "beacon": {"x": 0.22, "y": 0.8206}}, {"slug": "bodrum_kat__2_mutfak", "num": "02", "name_tr": "Kitchen", "floor": 0, "plan": "images/bodrum_kat/2_mutfak/plan.jpg", "images": ["images/bodrum_kat/2_mutfak/img_01.png", "images/bodrum_kat/2_mutfak/img_02.png", "images/bodrum_kat/2_mutfak/img_03.png"], "subs": [], "beacon": {"x": 0.54, "y": 0.6507}}, {"slug": "bodrum_kat__3_sinema_odasi", "num": "03", "name_tr": "Cinema Room", "floor": 0, "plan": "images/bodrum_kat/3_sinema_odasi/plan.jpg", "images": ["images/bodrum_kat/3_sinema_odasi/img_01.png", "images/bodrum_kat/3_sinema_odasi/img_02.png", "images/bodrum_kat/3_sinema_odasi/img_03.png"], "subs": [], "beacon": {"x": 0.37, "y": 0.6861}}, {"slug": "bodrum_kat__4_spor_salonu", "num": "04", "name_tr": "Gym", "floor": 0, "plan": "images/bodrum_kat/4_spor_salonu/plan.jpg", "images": ["images/bodrum_kat/4_spor_salonu/img_01.png"], "subs": [], "beacon": {"x": 0.3375, "y": 0.2473}}, {"slug": "bodrum_kat__5_hamam_sauna_ve_wc", "num": "05", "name_tr": "Hammam, Sauna & WC", "floor": 0, "plan": "images/bodrum_kat/5_hamam_sauna_ve_wc/plan.jpg", "images": ["images/bodrum_kat/5_hamam_sauna_ve_wc/img_01.png", "images/bodrum_kat/5_hamam_sauna_ve_wc/img_02.png", "images/bodrum_kat/5_hamam_sauna_ve_wc/img_03.png", "images/bodrum_kat/5_hamam_sauna_ve_wc/img_04.png"], "subs": [], "beacon": {"x": 0.345, "y": 0.5587}}, {"slug": "bodrum_kat__6_mescit", "num": "06", "name_tr": "Prayer Room", "floor": 0, "plan": "images/bodrum_kat/6_mescit/plan.jpg", "images": ["images/bodrum_kat/6_mescit/img_01.jpg", "images/bodrum_kat/6_mescit/img_02.png"], "subs": [{"slug": "abdest_wc", "name_tr": "Ablution WC", "images": ["images/bodrum_kat/6_mescit/abdest_wc/img_01.png", "images/bodrum_kat/6_mescit/abdest_wc/img_02.png"]}], "beacon": {"x": 0.58, "y": 0.2119}}, {"slug": "bodrum_kat__7_salon", "num": "07", "name_tr": "Living Room", "floor": 0, "plan": "images/bodrum_kat/7_salon/plan.jpg", "images": ["images/bodrum_kat/7_salon/img_01.png", "images/bodrum_kat/7_salon/img_02.png", "images/bodrum_kat/7_salon/img_03.png", "images/bodrum_kat/7_salon/img_04.png", "images/bodrum_kat/7_salon/img_05.png"], "subs": [], "beacon": {"x": 0.77, "y": 0.3181}}, {"slug": "bodrum_kat__8_suit_yatak_odasi", "num": "08", "name_tr": "Master Suite", "floor": 0, "plan": "images/bodrum_kat/8_suit_yatak_odasi/plan.jpg", "images": ["images/bodrum_kat/8_suit_yatak_odasi/img_01.png", "images/bodrum_kat/8_suit_yatak_odasi/img_02.png", "images/bodrum_kat/8_suit_yatak_odasi/img_03.png", "images/bodrum_kat/8_suit_yatak_odasi/img_04.png", "images/bodrum_kat/8_suit_yatak_odasi/img_05.jpg", "images/bodrum_kat/8_suit_yatak_odasi/img_06.png"], "subs": [{"slug": "banyo", "name_tr": "Bathroom", "images": ["images/bodrum_kat/8_suit_yatak_odasi/banyo/img_01.png", "images/bodrum_kat/8_suit_yatak_odasi/banyo/img_02.png"]}], "beacon": {"x": 0.79, "y": 0.7639}}, {"slug": "bodrum_kat__9_erkek_odasi", "num": "09", "name_tr": "Boy's Room", "floor": 0, "plan": "images/bodrum_kat/9_erkek_odasi/plan.jpg", "images": ["images/bodrum_kat/9_erkek_odasi/img_01.png", "images/bodrum_kat/9_erkek_odasi/img_02.png"], "subs": [{"slug": "banyo", "name_tr": "Bathroom", "images": ["images/bodrum_kat/9_erkek_odasi/banyo/img_01.png", "images/bodrum_kat/9_erkek_odasi/banyo/img_02.png"]}], "beacon": {"x": 0.4575, "y": 0.2119}}, {"slug": "bodrum_kat__11_depo_ve_camasir_odasi", "num": "10", "name_tr": "Storage & Laundry Room", "floor": 0, "plan": "images/bodrum_kat/11_depo_ve_camasir_odasi/plan.jpg", "images": ["images/bodrum_kat/11_depo_ve_camasir_odasi/img_01.png", "images/bodrum_kat/11_depo_ve_camasir_odasi/img_02.jpeg", "images/bodrum_kat/11_depo_ve_camasir_odasi/img_03.png", "images/bodrum_kat/11_depo_ve_camasir_odasi/img_04.png"], "subs": [], "beacon": {"x": 0.225, "y": 0.587}}, {"slug": "bodrum_kat__12_yardimci_odasi", "num": "11", "name_tr": "Housekeeper's Room", "floor": 0, "plan": "images/bodrum_kat/12_yardimci_odasi/plan.jpg", "images": ["images/bodrum_kat/12_yardimci_odasi/img_01.png", "images/bodrum_kat/12_yardimci_odasi/img_02.png"], "subs": [{"slug": "banyo", "name_tr": "Bathroom", "images": ["images/bodrum_kat/12_yardimci_odasi/banyo/img_01.png", "images/bodrum_kat/12_yardimci_odasi/banyo/img_02.jpg"]}], "beacon": {"x": 0.225, "y": 0.2473}}, {"slug": "zemin_kat__13_salon", "num": "12", "name_tr": "Living Room", "floor": 1, "plan": "images/zemin_kat/13_salon/plan.jpg", "images": ["images/zemin_kat/13_salon/img_01.png", "images/zemin_kat/13_salon/img_02.png", "images/zemin_kat/13_salon/img_03.png", "images/zemin_kat/13_salon/img_04.png"], "subs": [], "beacon": {"x": 0.68, "y": 0.6224}}, {"slug": "zemin_kat__14_misafir_yatak_odasi", "num": "13", "name_tr": "Guest Bedroom", "floor": 1, "plan": "images/zemin_kat/14_misafir_yatak_odasi/plan.jpg", "images": ["images/zemin_kat/14_misafir_yatak_odasi/img_01.png", "images/zemin_kat/14_misafir_yatak_odasi/img_02.jpeg"], "subs": [], "beacon": {"x": 0.2525, "y": 0.3818}}, {"slug": "1_kat__15_kiz_cocuk_odasi", "num": "14", "name_tr": "Girl's Bedroom", "floor": 2, "plan": "images/1_kat/15_kiz_cocuk_odasi/plan.jpg", "images": ["images/1_kat/15_kiz_cocuk_odasi/img_01.png", "images/1_kat/15_kiz_cocuk_odasi/img_02.png"], "subs": [], "beacon": {"x": 0.1825, "y": 0.3889}}, {"slug": "1_kat__16_erkek_cocuk_odasi", "num": "15", "name_tr": "Boy's Bedroom", "floor": 2, "plan": "images/1_kat/16_erkek_cocuk_odasi/plan.jpg", "images": ["images/1_kat/16_erkek_cocuk_odasi/img_01.png", "images/1_kat/16_erkek_cocuk_odasi/img_02.png"], "subs": [], "beacon": {"x": 0.4, "y": 0.3039}}, {"slug": "1_kat__17_ebeveyn_yatak_odasi", "num": "16", "name_tr": "Master Bedroom", "floor": 2, "plan": "images/1_kat/17_ebeveyn_yatak_odasi/plan.jpg", "images": ["images/1_kat/17_ebeveyn_yatak_odasi/img_01.png", "images/1_kat/17_ebeveyn_yatak_odasi/img_02.jpeg", "images/1_kat/17_ebeveyn_yatak_odasi/img_03.jpeg"], "subs": [], "beacon": {"x": 0.645, "y": 0.403}}, {"slug": "1_kat__18_2_li_kiz_cocuk_odasi", "num": "17", "name_tr": "Twin Girls' Bedroom", "floor": 2, "plan": "images/1_kat/18_2_li_kiz_cocuk_odasi/plan.jpg", "images": ["images/1_kat/18_2_li_kiz_cocuk_odasi/img_01.png", "images/1_kat/18_2_li_kiz_cocuk_odasi/img_02.jpeg"], "subs": [], "beacon": {"x": 0.77, "y": 0.7639}}, {"slug": "1_kat__19_merdiven_nisli_duvar", "num": "18", "name_tr": "Staircase Niche Wall", "floor": 2, "plan": null, "images": ["images/1_kat/19_merdiven_nisli_duvar/img_01.jpeg"], "subs": [], "beacon": {"x": 0.31, "y": 0.863}}];
+const K = {"tags": ["Basement Floor", "Carpet", "Countertop", "Fabric", "Furniture", "General", "Hardware", "Italian Paint", "Lighting", "Mirror & Glass", "Paint", "Porcelain Tile", "Skirting", "Wallpaper", "Wood Veneer"], "materials": [{"id": "m1-5", "title": "Porcelain Tile", "code": "NG Kütahya Messina 120×120 cm, 8 mm, beige matt, rectified", "location": "Basement floor · floor tiles", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [{"src": "materials/k000.webp", "label": "Sample"}], "tags": ["Porcelain Tile", "General", "Basement Floor"], "source": "Material catalog, 28 Oct 2026 · Materials, row 5"}, {"id": "m1-6", "title": "Porcelain Tile", "code": "NG Kütahya Camelia Green Bookmatch 120×280 cm, 6 mm, polished, rectified", "location": "Basement floor · green porcelain for niche corners and bathroom + hammam walls", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris", "bodrum_kat__5_hamam_sauna_ve_wc"], "renders": [], "images": [{"src": "materials/k001.webp", "label": "Sample"}], "tags": ["Porcelain Tile"], "source": "Material catalog, 28 Oct 2026 · Materials, row 6"}, {"id": "m1-7", "title": "Porcelain Tile", "code": "NG Kütahya Travertine 120×280 cm, 6 mm", "location": "Basement floor · travertine for hammam and bathroom walls, living room and master suite furniture", "quantity": "", "note": "", "rooms": ["bodrum_kat__5_hamam_sauna_ve_wc", "bodrum_kat__7_salon", "bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k002.webp", "label": "Sample"}], "tags": ["Porcelain Tile"], "source": "Material catalog, 28 Oct 2026 · Materials, row 7"}, {"id": "m1-8", "title": "Porcelain Tile", "code": "NG Kütahya Messina 120×280 cm, 6 mm, beige polished, rectified", "location": "Basement floor · Messina for bathroom walls", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi", "bodrum_kat__9_erkek_odasi", "bodrum_kat__12_yardimci_odasi", "bodrum_kat__5_hamam_sauna_ve_wc"], "renders": [], "images": [{"src": "materials/k000.webp", "label": "Sample"}], "tags": ["Porcelain Tile"], "source": "Material catalog, 28 Oct 2026 · Materials, row 8"}, {"id": "m1-10", "title": "Light Colour", "code": "4000 K daylight", "location": "General", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [], "tags": ["Lighting", "General"], "source": "Material catalog, 28 Oct 2026 · Materials, row 10"}, {"id": "m1-11", "title": "Ceiling Paint", "code": "Jotun Snow White", "location": "General", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [], "tags": ["Paint", "General"], "source": "Material catalog, 28 Oct 2026 · Materials, row 11"}, {"id": "m1-12", "title": "Wall Paint", "code": "Jotun Cotton Ball 1453", "location": "General", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [{"src": "materials/k003.webp", "label": "Sample"}], "tags": ["Paint", "General"], "source": "Material catalog, 28 Oct 2026 · Materials, row 12"}, {"id": "m1-13", "title": "Door Handles", "code": "Matt chrome", "location": "General", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [], "tags": ["Hardware", "General"], "source": "Material catalog, 28 Oct 2026 · Materials, row 13"}, {"id": "m1-14", "title": "Door Joints", "code": "Black", "location": "General", "quantity": "", "note": "", "rooms": [], "renders": [], "images": [{"src": "materials/k004.webp", "label": "Reference"}], "tags": ["Hardware", "General"], "source": "Material catalog, 28 Oct 2026 · Materials, row 14"}, {"id": "m1-15", "title": "Corridor Wall Light", "code": "Metallic black", "location": "General", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/k005.webp", "label": "Reference"}], "tags": ["Lighting"], "source": "Material catalog, 28 Oct 2026 · Materials, row 15"}, {"id": "m1-16", "title": "Handles", "code": "Black", "location": "Kitchen, master suite and master bedroom · handles inside the doors", "quantity": "", "note": "", "rooms": ["bodrum_kat__2_mutfak", "bodrum_kat__8_suit_yatak_odasi", "1_kat__17_ebeveyn_yatak_odasi"], "renders": [], "images": [], "tags": ["Hardware"], "source": "Material catalog, 28 Oct 2026 · Materials, row 16"}, {"id": "m1-17", "title": "Mirrors", "code": "Black mirror frames", "location": "Gym", "quantity": "", "note": "", "rooms": ["bodrum_kat__4_spor_salonu"], "renders": [], "images": [{"src": "materials/k006.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 17"}, {"id": "m1-18", "title": "Accessories", "code": "Chrome · copper in the master suite only", "location": "Bathrooms", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi", "bodrum_kat__9_erkek_odasi", "bodrum_kat__12_yardimci_odasi", "bodrum_kat__5_hamam_sauna_ve_wc", "bodrum_kat__6_mescit"], "renders": [], "images": [{"src": "materials/k007.webp", "label": "Sample"}], "tags": ["Hardware"], "source": "Material catalog, 28 Oct 2026 · Materials, row 18"}, {"id": "m1-19", "title": "Skirting", "code": "Same tone as the entrance wardrobe: AGT 732 Soft Touch Vizon", "location": "Basement floor · skirting", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/k008.webp", "label": "Sample"}], "tags": ["Skirting"], "source": "Material catalog, 28 Oct 2026 · Materials, row 19"}, {"id": "m1-21", "title": "Wood Veneer", "code": "AGT Peru Oak 3041", "location": "Corridor veneers and doors · niche inside the entrance wardrobe · kitchen coffee corner · cinema room veneers · bathroom furniture (incl. master suite) · prayer room · basement living room · master suite bedroom and dressing room wardrobes · ground floor living room · first floor master bedroom", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris", "bodrum_kat__2_mutfak", "bodrum_kat__3_sinema_odasi"], "renders": [], "images": [{"src": "materials/k009.webp", "label": "Sample"}], "tags": ["Wood Veneer"], "source": "Material catalog, 28 Oct 2026 · Materials, row 21"}, {"id": "m1-22", "title": "Wood Veneer", "code": "AGT Delphi Oak 3039", "location": "Basement boy's room · ground floor guest room · first floor girl's room · first floor boy's room · first floor twin girls' room", "quantity": "", "note": "", "rooms": ["bodrum_kat__9_erkek_odasi", "zemin_kat__14_misafir_yatak_odasi", "1_kat__15_kiz_cocuk_odasi", "1_kat__16_erkek_cocuk_odasi", "1_kat__18_2_li_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k009.webp", "label": "Sample"}], "tags": ["Wood Veneer"], "source": "Material catalog, 28 Oct 2026 · Materials, row 22"}, {"id": "m1-24", "title": "Countertop", "code": "Belenco 9113 Alinda", "location": "Kitchen and laundry room", "quantity": "", "note": "", "rooms": ["bodrum_kat__2_mutfak", "bodrum_kat__11_depo_ve_camasir_odasi"], "renders": [], "images": [{"src": "materials/k010.webp", "label": "Sample"}], "tags": ["Countertop"], "source": "Material catalog, 28 Oct 2026 · Materials, row 24"}, {"id": "m1-26", "title": "Console", "code": "AGT Peru", "location": "Entrance", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/k011.webp", "label": "Sample"}, {"src": "materials/k012.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 26"}, {"id": "m1-27", "title": "Entrance Wardrobe", "code": "AGT 732 Soft Touch Vizon", "location": "Entrance", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/k013.webp", "label": "Sample"}, {"src": "materials/k014.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 27"}, {"id": "m1-28", "title": "Flat MDF Doors", "code": "AGT 732 Soft Touch Vizon", "location": "Kitchen", "quantity": "", "note": "", "rooms": ["bodrum_kat__2_mutfak"], "renders": [], "images": [{"src": "materials/k013.webp", "label": "Sample"}, {"src": "materials/k015.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 28"}, {"id": "m1-29", "title": "Wood-Look Doors", "code": "AGT Peru", "location": "Kitchen", "quantity": "", "note": "", "rooms": ["bodrum_kat__2_mutfak"], "renders": [], "images": [{"src": "materials/k011.webp", "label": "Sample"}, {"src": "materials/k016.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 29"}, {"id": "m1-30", "title": "Glass Doors", "code": "Bronze flat glass, black metal frame", "location": "Kitchen", "quantity": "", "note": "", "rooms": ["bodrum_kat__2_mutfak"], "renders": [], "images": [{"src": "materials/k017.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 30"}, {"id": "m1-31", "title": "TV Console", "code": "AGT Soft Touch Cream 730", "location": "Cinema room", "quantity": "", "note": "", "rooms": ["bodrum_kat__3_sinema_odasi"], "renders": [], "images": [{"src": "materials/k018.webp", "label": "Sample"}, {"src": "materials/k019.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 31"}, {"id": "m1-32", "title": "Coffee Table Legs", "code": "Metal or lacquer · RAL 8019 matt", "location": "Basement living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k022.webp", "label": "Product / pattern"}, {"src": "materials/k020.webp", "label": "Sample"}, {"src": "materials/k021.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 32"}, {"id": "m1-33", "title": "Coffee Tables", "code": "One table top in bronze glass, the smaller table top in travertine porcelain", "location": "Basement living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k023.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 33"}, {"id": "m1-34", "title": "Dining Table", "code": "Travertine", "location": "Basement living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k024.webp", "label": "Sample"}, {"src": "materials/k025.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 34"}, {"id": "m1-35", "title": "Chair", "code": "RAL 8019 matt", "location": "Basement living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k022.webp", "label": "Product / pattern"}, {"src": "materials/k020.webp", "label": "Sample"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 35"}, {"id": "m1-36", "title": "TV Centre MDF and Door Threshold", "code": "AGT 6015 HG Diamond Grey", "location": "Master suite", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k026.webp", "label": "Sample"}, {"src": "materials/k027.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 36"}, {"id": "m1-38", "title": "Cabinet Doors", "code": "Yıldız Trend YT-Z64 İnci Kum (Pearly Sand) · Natural", "location": "Storage and laundry room", "quantity": "", "note": "", "rooms": ["bodrum_kat__11_depo_ve_camasir_odasi"], "renders": [], "images": [{"src": "materials/yildiz-trend-yt-z64-inci-kum.jpg", "label": "Sample"}, {"src": "materials/k029.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 38"}, {"id": "m1-39", "title": "Cabinet Doors", "code": "Yıldız Trend VT 302 Hareli Ceviz (Moiré Walnut)", "location": "Housekeeper's room", "quantity": "", "note": "", "rooms": ["bodrum_kat__12_yardimci_odasi"], "renders": [], "images": [{"src": "materials/k030.webp", "label": "Sample"}, {"src": "materials/k031.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 39"}, {"id": "m1-40", "title": "Dining Table", "code": "Elazığ cherry", "location": "Ground floor living room", "quantity": "", "note": "", "rooms": ["zemin_kat__13_salon"], "renders": [], "images": [{"src": "materials/k032.webp", "label": "Sample"}, {"src": "materials/k033.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 40"}, {"id": "m1-41", "title": "Chair Wood", "code": "RAL 8019", "location": "Ground floor living room", "quantity": "", "note": "", "rooms": ["zemin_kat__13_salon"], "renders": [], "images": [{"src": "materials/k022.webp", "label": "Product / pattern"}, {"src": "materials/k020.webp", "label": "Sample"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 41"}, {"id": "m1-42", "title": "Headboard and Bedside Tables", "code": "AGT Soft Touch New Grey 729", "location": "First floor boy's room", "quantity": "", "note": "", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k034.webp", "label": "Sample"}, {"src": "materials/k035.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 42"}, {"id": "m1-43", "title": "Headboard and Bedside Table", "code": "AGT 3016 Pink Daisy", "location": "First floor twin girls' room", "quantity": "", "note": "", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k036.webp", "label": "Sample"}, {"src": "materials/k037.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 43"}, {"id": "m1-44", "title": "Cabinet Doors", "code": "White parts: AGT 730 Soft Touch Cream · MDF: AGT Delphi Oak 3039", "location": "Children's rooms and guest room", "quantity": "", "note": "", "rooms": ["1_kat__15_kiz_cocuk_odasi", "1_kat__16_erkek_cocuk_odasi", "1_kat__18_2_li_kiz_cocuk_odasi", "zemin_kat__14_misafir_yatak_odasi"], "renders": [], "images": [{"src": "materials/k039.webp", "label": "Product / pattern"}, {"src": "materials/k018.webp", "label": "Sample"}, {"src": "materials/k038.webp", "label": "Reference"}], "tags": ["Furniture"], "source": "Material catalog, 28 Oct 2026 · Materials, row 44"}, {"id": "m1-47", "title": "Italian Paint", "code": "Cadoro 0070 Argento (silver)", "location": "Basement floor · corridor, prayer room, living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris", "bodrum_kat__6_mescit", "bodrum_kat__7_salon"], "renders": [], "images": [], "tags": ["Italian Paint"], "source": "Material catalog, 28 Oct 2026 · Materials, row 47"}, {"id": "m1-48", "title": "Italian Paint", "code": "Colour: San Marco T256 · Texture: Antica Calce Plus (applied with linear strokes)", "location": "Basement corridor niches", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/san-marco-antica-calce-plus.jpg", "label": "Texture sample"}, {"src": "materials/san-marco-t256-colour.jpg", "label": "Colour sample"}, {"src": "materials/k042.webp", "label": "Reference"}], "tags": ["Italian Paint"], "source": "Material catalog, 28 Oct 2026 · Materials, row 48"}, {"id": "m1-50", "title": "Mirror", "code": "Bronze", "location": "Basement floor · corridor", "quantity": "", "note": "", "rooms": ["bodrum_kat__1_giris"], "renders": [], "images": [{"src": "materials/k043.webp", "label": "Reference"}], "tags": ["Mirror & Glass"], "source": "Material catalog, 28 Oct 2026 · Materials, row 50"}, {"id": "m1-51", "title": "Mirror", "code": "Bronze", "location": "Basement floor · cinema room", "quantity": "", "note": "", "rooms": ["bodrum_kat__3_sinema_odasi"], "renders": [], "images": [{"src": "materials/k044.webp", "label": "Reference"}], "tags": ["Mirror & Glass"], "source": "Material catalog, 28 Oct 2026 · Materials, row 51"}, {"id": "m1-52", "title": "Mirror", "code": "Clear mirror", "location": "Basement floor · master suite dressing room", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k045.webp", "label": "Reference"}], "tags": ["Mirror & Glass"], "source": "Material catalog, 28 Oct 2026 · Materials, row 52"}, {"id": "m1-54", "title": "Coffee Table", "code": "Bronze glass top on the large centre table", "location": "Basement living room", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k046.webp", "label": "Reference"}], "tags": ["Mirror & Glass"], "source": "Material catalog, 28 Oct 2026 · Materials, row 54"}, {"id": "m1-55", "title": "Door Glass", "code": "Clear ribbed glass", "location": "Master suite and master bedroom · dressing rooms", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi", "1_kat__17_ebeveyn_yatak_odasi"], "renders": [], "images": [{"src": "materials/k047.webp", "label": "Reference"}], "tags": ["Mirror & Glass"], "source": "Material catalog, 28 Oct 2026 · Materials, row 55"}, {"id": "m1-57", "title": "Carpet", "code": "Haliflex 1023 Starlight Blue", "location": "Prayer room", "quantity": "", "note": "", "rooms": ["bodrum_kat__6_mescit"], "renders": [], "images": [{"src": "materials/k050.webp", "label": "Product / pattern"}, {"src": "materials/k048.webp", "label": "Sample"}, {"src": "materials/k049.webp", "label": "Reference"}], "tags": ["Carpet"], "source": "Material catalog, 28 Oct 2026 · Materials, row 57"}, {"id": "m2-5", "title": "Fabric", "code": "Hespera – Napoli 29", "location": "Basement floor · cinema room", "quantity": "", "note": "", "rooms": ["bodrum_kat__3_sinema_odasi"], "renders": [], "images": [{"src": "materials/k051.webp", "label": "Sample"}, {"src": "materials/k052.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 5"}, {"id": "m2-6", "title": "Fabric", "code": "Hespera – Napoli 32", "location": "Basement floor · prayer room", "quantity": "", "note": "", "rooms": ["bodrum_kat__6_mescit"], "renders": [], "images": [{"src": "materials/k053.webp", "label": "Sample"}, {"src": "materials/k054.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 6"}, {"id": "m2-7", "title": "Fabric", "code": "Lazzoni", "location": "Basement living room · sofa and armchair", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k055.webp", "label": "Sample"}, {"src": "materials/k056.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 7"}, {"id": "m2-8", "title": "Fabric", "code": "To be chosen to match the sofas", "location": "Basement living room · chairs", "quantity": "", "note": "", "rooms": ["bodrum_kat__7_salon"], "renders": [], "images": [{"src": "materials/k057.webp", "label": "Sample"}, {"src": "materials/k058.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 8"}, {"id": "m2-9", "title": "Fabric", "code": "Hespera – Napoli 13", "location": "Basement master suite · headboard and bed base", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k059.webp", "label": "Sample"}, {"src": "materials/k060.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 9"}, {"id": "m2-10", "title": "Fabric", "code": "Artitextile – Vanish 0068", "location": "Basement master suite · desk chair", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k061.webp", "label": "Sample"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 10"}, {"id": "m2-11", "title": "Fabric", "code": "Artitextile – Fusion 0029", "location": "Basement master suite · armchair", "quantity": "", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k062.webp", "label": "Sample"}, {"src": "materials/k063.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 11"}, {"id": "m2-12", "title": "Fabric", "code": "Hespera – Napoli 07", "location": "Basement boy's room · headboard and bed base", "quantity": "", "note": "", "rooms": ["bodrum_kat__9_erkek_odasi"], "renders": [], "images": [{"src": "materials/k064.webp", "label": "Sample"}, {"src": "materials/k065.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 12"}, {"id": "m2-13", "title": "Fabric", "code": "Hespera – Bouclette 20 Cement", "location": "Ground floor living room · sofa and chairs", "quantity": "", "note": "", "rooms": ["zemin_kat__13_salon"], "renders": [], "images": [{"src": "materials/k066.webp", "label": "Sample"}, {"src": "materials/k067.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 13"}, {"id": "m2-14", "title": "Fabric", "code": "Artitextile – Miss 0066", "location": "Ground floor living room · armchair", "quantity": "", "note": "", "rooms": ["zemin_kat__13_salon"], "renders": [], "images": [{"src": "materials/k068.webp", "label": "Sample"}, {"src": "materials/k069.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 14"}, {"id": "m2-15", "title": "Fabric", "code": "Hespera – Napoli 23", "location": "Ground floor guest bedroom · headboard and bed base", "quantity": "", "note": "", "rooms": ["zemin_kat__14_misafir_yatak_odasi"], "renders": [], "images": [{"src": "materials/k070.webp", "label": "Sample"}, {"src": "materials/k071.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 15"}, {"id": "m2-16", "title": "Fabric", "code": "Artitextile – Origine 0035", "location": "First floor girl's bedroom · headboard and bed base", "quantity": "", "note": "", "rooms": ["1_kat__15_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k072.webp", "label": "Sample"}, {"src": "materials/k073.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 16"}, {"id": "m2-17", "title": "Fabric", "code": "Hespera – Napoli 13", "location": "First floor boy's bedroom · headboard and bed base", "quantity": "", "note": "", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k059.webp", "label": "Sample"}, {"src": "materials/k074.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 17"}, {"id": "m2-18", "title": "Fabric", "code": "Hespera – Napoli 26", "location": "First floor master bedroom · headboard and bed base", "quantity": "", "note": "", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "renders": [], "images": [{"src": "materials/k075.webp", "label": "Sample"}, {"src": "materials/k076.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 18"}, {"id": "m2-19", "title": "Fabric", "code": "Hespera – Napoli 27", "location": "First floor twin girls' bedroom · headboard and bed base", "quantity": "", "note": "", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k077.webp", "label": "Sample"}, {"src": "materials/k078.webp", "label": "Reference"}], "tags": ["Fabric"], "source": "Material catalog, 28 Oct 2026 · Fabrics, row 19"}, {"id": "m3-5", "title": "Wallpaper", "code": "Beta 1105-2", "location": "Cinema room", "quantity": "5.7 m²", "note": "", "rooms": ["bodrum_kat__3_sinema_odasi"], "renders": [], "images": [{"src": "materials/k081.webp", "label": "Product / pattern"}, {"src": "materials/k079.webp", "label": "Sample"}, {"src": "materials/k080.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 5"}, {"id": "m3-6", "title": "Wallpaper", "code": "Beta 1104-3", "location": "Basement boy's room", "quantity": "32.9 m²", "note": "", "rooms": ["bodrum_kat__9_erkek_odasi"], "renders": [], "images": [{"src": "materials/k084.webp", "label": "Product / pattern"}, {"src": "materials/k082.webp", "label": "Sample"}, {"src": "materials/k083.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 6"}, {"id": "m3-7", "title": "Wallpaper", "code": "Beta 1113-1", "location": "Basement master suite", "quantity": "69.1 m²", "note": "", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "renders": [], "images": [{"src": "materials/k086.webp", "label": "Product / pattern"}, {"src": "materials/k085.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 7"}, {"id": "m3-8", "title": "Wallpaper", "code": "Muse 25101-5", "location": "Basement gym", "quantity": "30 m²", "note": "", "rooms": ["bodrum_kat__4_spor_salonu"], "renders": [], "images": [{"src": "materials/k089.webp", "label": "Product / pattern"}, {"src": "materials/k087.webp", "label": "Sample"}, {"src": "materials/k088.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 8"}, {"id": "m3-9", "title": "Wallpaper", "code": "Beta 1110-1", "location": "Basement gym", "quantity": "15 m²", "note": "", "rooms": ["bodrum_kat__4_spor_salonu"], "renders": [], "images": [{"src": "materials/k091.webp", "label": "Product / pattern"}, {"src": "materials/k090.webp", "label": "Sample"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 9"}, {"id": "m3-10", "title": "Wallpaper", "code": "Alfa 3708-1", "location": "Ground floor living room", "quantity": "13.8 m²", "note": "", "rooms": ["zemin_kat__13_salon"], "renders": [], "images": [{"src": "materials/k094.webp", "label": "Product / pattern"}, {"src": "materials/k092.webp", "label": "Sample"}, {"src": "materials/k093.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 10"}, {"id": "m3-11", "title": "Wallpaper", "code": "Ephes 5801-7", "location": "Ground floor guest room", "quantity": "8.8 m²", "note": "", "rooms": ["zemin_kat__14_misafir_yatak_odasi"], "renders": [], "images": [{"src": "materials/k097.webp", "label": "Product / pattern"}, {"src": "materials/k095.webp", "label": "Sample"}, {"src": "materials/k096.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 11"}, {"id": "m3-12", "title": "Wallpaper", "code": "Ephes 5801-7", "location": "First floor girl's room", "quantity": "6.4 m²", "note": "", "rooms": ["1_kat__15_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k097.webp", "label": "Product / pattern"}, {"src": "materials/k095.webp", "label": "Sample"}, {"src": "materials/k098.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 12"}, {"id": "m3-13", "title": "Wallpaper", "code": "Icon 24105-5", "location": "First floor boy's room", "quantity": "4.3 m²", "note": "", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k101.webp", "label": "Product / pattern"}, {"src": "materials/k099.webp", "label": "Sample"}, {"src": "materials/k100.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 13"}, {"id": "m3-14", "title": "Wallpaper", "code": "Vera 1507-2", "location": "First floor master bedroom · headboard wall", "quantity": "6.2 m²", "note": "", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "renders": [], "images": [{"src": "materials/k104.webp", "label": "Product / pattern"}, {"src": "materials/k102.webp", "label": "Sample"}, {"src": "materials/k103.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 14"}, {"id": "m3-15", "title": "Wallpaper", "code": "Beta 1113-2", "location": "First floor master bedroom", "quantity": "10.2 m²", "note": "", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "renders": [], "images": [{"src": "materials/k107.webp", "label": "Product / pattern"}, {"src": "materials/k105.webp", "label": "Sample"}, {"src": "materials/k106.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 15"}, {"id": "m3-16", "title": "Wallpaper", "code": "Muse 25109-5", "location": "First floor twin girls' room", "quantity": "6.4 m²", "note": "", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "renders": [], "images": [{"src": "materials/k110.webp", "label": "Product / pattern"}, {"src": "materials/k108.webp", "label": "Sample"}, {"src": "materials/k109.webp", "label": "Reference"}], "tags": ["Wallpaper"], "source": "Material catalog, 28 Oct 2026 · Wallpapers, row 16"}], "notes": [{"id": "n001", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Veneers, doors and niche: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n002", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Floor tiles: NG Kütahya Messina 120×120 cm, 8 mm, beige matt, rectified.", "tags": ["Porcelain Tile"]}, {"id": "n003", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Italian paint: Cadoro 0070 Argento (silver); to match the office colour.", "tags": ["Italian Paint"]}, {"id": "n004", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Console wood: same tone as AGT Peru.", "tags": ["Wood Veneer", "Furniture"]}, {"id": "n005", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Entrance wardrobe: AGT 732 Soft Touch Vizon.", "tags": ["Furniture"]}, {"id": "n006", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Green porcelain: NG Kütahya Camelia Green Bookmatch 120×280 cm, 6 mm, polished, rectified.", "tags": ["Porcelain Tile"]}, {"id": "n007", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Niche paint: San Marco T256. Texture: Antica Calce Plus, applied with linear strokes.", "tags": ["Italian Paint"]}, {"id": "n008", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Lighting metals: black.", "tags": ["Lighting", "Hardware"]}, {"id": "n009", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Mirror: bronze.", "tags": ["Mirror & Glass"]}, {"id": "n010", "rooms": ["bodrum_kat__1_giris"], "image": null, "text": "Wall tiles: the existing Messina is kept.", "tags": ["Porcelain Tile"]}, {"id": "n011", "rooms": ["bodrum_kat__2_mutfak"], "image": null, "text": "Glass doors: bronze flat glass with a black metal frame.", "tags": ["Mirror & Glass", "Hardware"]}, {"id": "n012", "rooms": ["bodrum_kat__2_mutfak"], "image": null, "text": "Flat MDF doors: AGT 732 Soft Touch Vizon.", "tags": ["Furniture"]}, {"id": "n013", "rooms": ["bodrum_kat__2_mutfak"], "image": null, "text": "Handles: black.", "tags": ["Hardware"]}, {"id": "n014", "rooms": ["bodrum_kat__2_mutfak"], "image": null, "text": "Countertop: Belenco 9113 Alinda.", "tags": ["Countertop"]}, {"id": "n015", "rooms": ["bodrum_kat__2_mutfak"], "image": null, "text": "Wood-look doors: AGT Peru.", "tags": ["Wood Veneer", "Furniture"]}, {"id": "n016", "rooms": ["bodrum_kat__3_sinema_odasi"], "image": null, "text": "Mirror: bronze.", "tags": ["Mirror & Glass"]}, {"id": "n017", "rooms": ["bodrum_kat__3_sinema_odasi"], "image": null, "text": "TV console: AGT Soft Touch Cream 730.", "tags": ["Furniture"]}, {"id": "n018", "rooms": ["bodrum_kat__3_sinema_odasi"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n019", "rooms": ["bodrum_kat__3_sinema_odasi"], "image": null, "text": "Wallpaper: Beta 1105-2.", "tags": ["Wallpaper"]}, {"id": "n020", "rooms": ["bodrum_kat__3_sinema_odasi"], "image": null, "text": "Sofa fabric: Hespera – Napoli 29.", "tags": ["Fabric", "Furniture"]}, {"id": "n021", "rooms": ["bodrum_kat__4_spor_salonu"], "image": null, "text": "Wallpaper in place of the orange Italian paint: Muse 25101-5.", "tags": ["Wallpaper", "Italian Paint"]}, {"id": "n022", "rooms": ["bodrum_kat__4_spor_salonu"], "image": null, "text": "Wallpaper in place of the white Italian paint: Beta 1110-1.", "tags": ["Wallpaper", "Italian Paint"]}, {"id": "n023", "rooms": ["bodrum_kat__4_spor_salonu"], "image": null, "text": "Mirror metals: black.", "tags": ["Mirror & Glass", "Hardware"]}, {"id": "n024", "rooms": ["bodrum_kat__8_suit_yatak_odasi", "bodrum_kat__9_erkek_odasi", "bodrum_kat__12_yardimci_odasi", "bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Furniture: AGT Peru Oak 3041.", "tags": ["Wood Veneer", "Furniture"]}, {"id": "n025", "rooms": ["bodrum_kat__8_suit_yatak_odasi", "bodrum_kat__9_erkek_odasi", "bodrum_kat__12_yardimci_odasi", "bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Accessories: chrome; the copper exception in the master suite bathroom is kept.", "tags": ["Hardware"]}, {"id": "n026", "rooms": ["bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Travertine: approved.", "tags": ["Porcelain Tile"]}, {"id": "n027", "rooms": ["bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Basin (kurna): approved.", "tags": ["Furniture"]}, {"id": "n028", "rooms": ["bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Metals and taps: chrome.", "tags": ["Hardware"]}, {"id": "n029", "rooms": ["bodrum_kat__5_hamam_sauna_ve_wc"], "image": null, "text": "Corridor walls: travertine.", "tags": ["Porcelain Tile"]}, {"id": "n030", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n031", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Carpet: 1023 Starlight Blue; light blue.", "tags": ["Carpet"]}, {"id": "n032", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Seat fabric: Hespera – Napoli 32.", "tags": ["Fabric", "Furniture"]}, {"id": "n033", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Italian paint: Cadoro 0070 Argento (silver).", "tags": ["Italian Paint"]}, {"id": "n034", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Ablution room tiles: the selection in the source render is approved.", "tags": ["Porcelain Tile"]}, {"id": "n035", "rooms": ["bodrum_kat__6_mescit"], "image": null, "text": "Accessories: chrome.", "tags": ["Hardware"]}, {"id": "n036", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n037", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Italian paint: Cadoro 0070 Argento (silver).", "tags": ["Italian Paint"]}, {"id": "n038", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "TV unit travertine: approved.", "tags": ["Porcelain Tile", "Furniture"]}, {"id": "n039", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Sofa fabric: Lazzoni. Dark tone for the base, light tone for the seat; cushions in the same colour as the base.", "tags": ["Fabric", "Furniture"]}, {"id": "n040", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Coffee tables: bronze glass top on the large table, travertine porcelain top on the small table.", "tags": ["Porcelain Tile", "Mirror & Glass"]}, {"id": "n041", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Coffee table legs: metal or lacquer; RAL 8019 matt.", "tags": ["Hardware", "Furniture"]}, {"id": "n042", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Dining table: travertine.", "tags": ["Porcelain Tile", "Furniture"]}, {"id": "n043", "rooms": ["bodrum_kat__7_salon"], "image": null, "text": "Chairs: fabric to be chosen to match the sofas; legs in RAL 8019 matt.", "tags": ["Fabric", "Furniture"]}, {"id": "n044", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n045", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Porcelain: travertine.", "tags": ["Porcelain Tile"]}, {"id": "n046", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Wallpaper: Beta 1113-1.", "tags": ["Wallpaper"]}, {"id": "n047", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Bed: no storage base, no box frame, and not too high.", "tags": ["Furniture"]}, {"id": "n048", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 13.", "tags": ["Fabric", "Furniture"]}, {"id": "n049", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "TV unit centre MDF and door threshold: AGT 6015 HG Diamond Grey.", "tags": ["Furniture"]}, {"id": "n050", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Desk chair / armchair fabric: Artitextile – Vanish 0068.", "tags": ["Fabric", "Furniture"]}, {"id": "n051", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Armchair fabric: Artitextile – Fusion 0029.", "tags": ["Fabric", "Furniture"]}, {"id": "n052", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Work area: the desk chair will be an armchair-style chair on castors. The desk extends from the right of the TV unit; the lower right cabinet is cancelled.", "tags": ["Furniture"]}, {"id": "n053", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Dressing room: clear ribbed glass, black metal, AGT Peru and clear mirror.", "tags": ["Wood Veneer", "Mirror & Glass"]}, {"id": "n054", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Bathroom cabinet door: AGT Peru Oak 3041.", "tags": ["Wood Veneer", "Furniture"]}, {"id": "n055", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Bathroom taps, accessories and shower metals: copper.", "tags": ["Hardware"]}, {"id": "n056", "rooms": ["bodrum_kat__8_suit_yatak_odasi"], "image": null, "text": "Bathroom mirror: reduced in size and made into a mirrored cabinet. Cabinets on the left and right to be considered.", "tags": ["Mirror & Glass", "Furniture"]}, {"id": "n057", "rooms": ["bodrum_kat__9_erkek_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 07.", "tags": ["Fabric", "Furniture"]}, {"id": "n058", "rooms": ["bodrum_kat__9_erkek_odasi"], "image": null, "text": "Wood veneers: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n059", "rooms": ["bodrum_kat__9_erkek_odasi"], "image": null, "text": "Wallpaper: Beta 1104-3.", "tags": ["Wallpaper"]}, {"id": "n060", "rooms": ["bodrum_kat__9_erkek_odasi"], "image": null, "text": "Bathroom: the current selection is fine; the mirror will be a mirrored cabinet.", "tags": ["Mirror & Glass", "Furniture"]}, {"id": "n061", "rooms": [], "image": null, "text": "Bathrooms: mirror and mirrored cabinet solutions to be developed.", "tags": ["Mirror & Glass", "Furniture", "General"]}, {"id": "n062", "rooms": ["bodrum_kat__11_depo_ve_camasir_odasi"], "image": null, "text": "Cabinet doors: Yıldız Trend YT-Z64 İnci Kum (Pearly Sand), Natural.", "tags": ["Furniture"]}, {"id": "n063", "rooms": ["bodrum_kat__11_depo_ve_camasir_odasi"], "image": null, "text": "Countertop: Belenco 9113 Alinda.", "tags": ["Countertop"]}, {"id": "n064", "rooms": ["bodrum_kat__11_depo_ve_camasir_odasi"], "image": null, "text": "Ironing board: check the socket position.", "tags": ["Furniture"]}, {"id": "n065", "rooms": ["bodrum_kat__12_yardimci_odasi"], "image": null, "text": "Cabinet doors: Yıldız Trend VT 302 Hareli Ceviz (Moiré Walnut).", "tags": ["Furniture"]}, {"id": "n066", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n067", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Wallpaper: Alfa 3708-1.", "tags": ["Wallpaper"]}, {"id": "n068", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Sofa and chair fabric: Hespera – Bouclette 20 Cement.", "tags": ["Fabric", "Furniture"]}, {"id": "n069", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Armchair fabric: Artitextile – Miss 0066.", "tags": ["Fabric"]}, {"id": "n070", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Dining table: Elazığ cherry.", "tags": ["Furniture"]}, {"id": "n071", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Wall behind the dining table: Italian paint cancelled; the selected wallpaper is applied instead.", "tags": ["Wallpaper", "Italian Paint"]}, {"id": "n072", "rooms": ["zemin_kat__13_salon"], "image": null, "text": "Chair wood: RAL 8019.", "tags": ["Furniture"]}, {"id": "n073", "rooms": ["zemin_kat__14_misafir_yatak_odasi"], "image": null, "text": "Wallpaper: Ephes 5801-7.", "tags": ["Wallpaper"]}, {"id": "n074", "rooms": ["zemin_kat__14_misafir_yatak_odasi"], "image": null, "text": "Wood veneers: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n075", "rooms": ["zemin_kat__14_misafir_yatak_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 23.", "tags": ["Fabric", "Furniture"]}, {"id": "n076", "rooms": ["1_kat__15_kiz_cocuk_odasi"], "image": null, "text": "Wallpaper: Ephes 5801-7.", "tags": ["Wallpaper"]}, {"id": "n077", "rooms": ["1_kat__15_kiz_cocuk_odasi"], "image": null, "text": "Wood veneers: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n078", "rooms": ["1_kat__15_kiz_cocuk_odasi"], "image": null, "text": "Bed fabric: Artitextile – Origine 0035.", "tags": ["Fabric", "Furniture"]}, {"id": "n079", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "image": null, "text": "Wallpaper: Icon 24105-5.", "tags": ["Wallpaper"]}, {"id": "n080", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "image": null, "text": "Wood veneers: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n081", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 13.", "tags": ["Fabric", "Furniture"]}, {"id": "n082", "rooms": ["1_kat__16_erkek_cocuk_odasi"], "image": null, "text": "Headboard and bedside tables: AGT Soft Touch New Grey 729.", "tags": ["Furniture"]}, {"id": "n083", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "image": null, "text": "Headboard wallpaper: Vera 1507-2.", "tags": ["Wallpaper"]}, {"id": "n084", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "image": null, "text": "Main wallpaper: Beta 1113-2.", "tags": ["Wallpaper"]}, {"id": "n085", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "image": null, "text": "Wood veneers: AGT Peru Oak 3041.", "tags": ["Wood Veneer"]}, {"id": "n086", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 26.", "tags": ["Fabric", "Furniture"]}, {"id": "n087", "rooms": ["1_kat__17_ebeveyn_yatak_odasi"], "image": null, "text": "Bed: no storage base, no box frame, and not too high.", "tags": ["Furniture"]}, {"id": "n088", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "image": null, "text": "Wallpaper: Muse 25109-5.", "tags": ["Wallpaper"]}, {"id": "n089", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "image": null, "text": "Wood veneers: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n090", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "image": null, "text": "Bed fabric: Hespera – Napoli 27.", "tags": ["Fabric", "Furniture"]}, {"id": "n091", "rooms": ["1_kat__18_2_li_kiz_cocuk_odasi"], "image": null, "text": "Headboard and bedside tables: AGT 3016 Pink Daisy.", "tags": ["Furniture"]}, {"id": "n092", "rooms": ["1_kat__15_kiz_cocuk_odasi", "1_kat__16_erkek_cocuk_odasi", "1_kat__18_2_li_kiz_cocuk_odasi", "zemin_kat__14_misafir_yatak_odasi"], "image": null, "text": "Parts that read as white lacquer: AGT 730 Soft Touch Cream.", "tags": ["Furniture"]}, {"id": "n093", "rooms": ["1_kat__15_kiz_cocuk_odasi", "1_kat__16_erkek_cocuk_odasi", "1_kat__18_2_li_kiz_cocuk_odasi", "zemin_kat__14_misafir_yatak_odasi"], "image": null, "text": "Wood-look MDF: AGT Delphi Oak 3039.", "tags": ["Wood Veneer"]}, {"id": "n094", "rooms": [], "image": null, "text": "Light colour: 4000 K.", "tags": ["General"]}, {"id": "n095", "rooms": [], "image": null, "text": "Door joints: black.", "tags": ["General"]}, {"id": "n096", "rooms": [], "image": null, "text": "Door handles: matt chrome.", "tags": ["Hardware", "General"]}, {"id": "n097", "rooms": [], "image": null, "text": "Skirting: same colour as the entrance wardrobe.", "tags": ["Furniture", "General"]}]};
+
+let currentRoom = null;
+let currentSubKey = null;
+let currentView = 'images';
+let currentImages = [];
+let lightboxIdx = 0;
+let activeFloor = 0;
+let lbPanelOpen = false;
+
+/* ================== HELPERS ================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const low = s => String(s || '').toLowerCase();
+const ROOM = Object.fromEntries(DATA.map(r => [r.slug, r]));
+const roomLabel = slug => { const r = ROOM[slug]; return r ? r.name_tr : 'General'; };
+const roomLabelFull = slug => { const r = ROOM[slug]; return r ? r.name_tr + ' · ' + FLOORS[r.floor].name : 'General'; };
+const allImagesOf = r => r.images.concat(...r.subs.map(s => s.images));
+const IMG_OWNER = {};
+DATA.forEach(r => { r.images.forEach((p, i) => IMG_OWNER[p] = { room: r.slug, sub: null, i }); r.subs.forEach(s => s.images.forEach((p, i) => IMG_OWNER[p] = { room: r.slug, sub: s.slug, i })); });
+const matsOfRoom = slug => K.materials.filter(m => m.rooms.includes(slug));
+const notesOfRoom = slug => K.notes.filter(n => n.rooms.includes(slug));
+const notesOfImage = p => K.notes.filter(n => n.image === p);
+const matsOfImage = p => K.materials.filter(m => (m.renders || []).includes(p));
+const coverOf = m => (m.images && m.images[0] && m.images[0].src) || '';
+function tagCounts() {
+  const c = new Map();
+  K.tags.forEach(t => c.set(t, 0));
+  K.materials.concat(K.notes).forEach(x => (x.tags || []).forEach(t => c.set(t, (c.get(t) || 0) + 1)));
+  return c;
+}
+
+/* ================== START ================== */
+function init() {
+  buildPlanSlider();
+  setupModalEvents();
+  setupLightbox();
+  setupSections();
+  buildRoomGrid();
+  renderLibrary();
+  renderNotesBoard();
+  document.getElementById('indexMeta').textContent = DATA.length + ' Spaces · Visual Index';
+}
+
+/* ---------- PLAN SLIDER ---------- */
+function buildPlanSlider() {
+  const viewport = document.getElementById('planViewport');
+  viewport.innerHTML = '';
+  FLOORS.forEach((floor, fIdx) => {
+    const slide = document.createElement('div');
+    slide.className = 'plan-slide' + (fIdx === 0 ? ' active' : '');
+    slide.setAttribute('data-floor', fIdx);
+    const stage = document.createElement('div');
+    stage.className = 'plan-stage';
+    const img = document.createElement('img');
+    img.className = 'plan-img';
+    img.src = floor.plan;
+    img.alt = floor.name + ' plan';
+    const hotspots = document.createElement('div');
+    hotspots.className = 'hotspots';
+    DATA.filter(r => r.floor === fIdx && r.beacon).forEach(room => {
+      const el = document.createElement('div');
+      el.className = 'beacon';
+      el.style.left = (room.beacon.x * 100) + '%';
+      el.style.top = (room.beacon.y * 100) + '%';
+      el.setAttribute('data-room', room.slug);
+      el.setAttribute('aria-label', room.name_tr);
+      el.innerHTML = '<div class="beacon-tooltip"><span class="beacon-tooltip-num">' + room.num + '</span>' + esc(room.name_tr) + '</div>';
+      el.addEventListener('click', () => openRoom(room.slug));
+      hotspots.appendChild(el);
+    });
+    stage.appendChild(img); stage.appendChild(hotspots); slide.appendChild(stage); viewport.appendChild(slide);
+  });
+  const single = FLOORS.length <= 1;
+  document.getElementById('planNav').classList.toggle('hidden', single);
+  const dotsWrap = document.getElementById('planDots');
+  dotsWrap.classList.toggle('hidden', single);
+  dotsWrap.innerHTML = '';
+  if (!single) {
+    FLOORS.forEach((floor, fIdx) => {
+      const dot = document.createElement('button');
+      dot.className = 'plan-dot' + (fIdx === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', floor.name);
+      dot.addEventListener('click', () => goFloor(fIdx));
+      dotsWrap.appendChild(dot);
+    });
+    document.getElementById('planPrev').addEventListener('click', () => goFloor(activeFloor - 1));
+    document.getElementById('planNext').addEventListener('click', () => goFloor(activeFloor + 1));
+  }
+  updateFloorLabel();
+}
+function goFloor(idx) {
+  const n = FLOORS.length;
+  activeFloor = (idx + n) % n;
+  document.querySelectorAll('.plan-slide').forEach((s, i) => s.classList.toggle('active', i === activeFloor));
+  document.querySelectorAll('.plan-dot').forEach((d, i) => d.classList.toggle('active', i === activeFloor));
+  updateFloorLabel();
+}
+function updateFloorLabel() {
+  const label = document.getElementById('planFloorLabel');
+  if (!FLOORS.length) { label.textContent = ''; return; }
+  label.innerHTML = '<span>FLOOR ' + (activeFloor + 1) + ' / ' + FLOORS.length + '</span>' + esc(FLOORS[activeFloor].name);
+}
+
+/* ---------- ROOM GRID ---------- */
+function buildRoomGrid() {
+  const grid = document.getElementById('roomGrid');
+  grid.innerHTML = '';
+  const showFloor = FLOORS.length > 1;
+  DATA.forEach((room, idx) => {
+    const totalImgs = allImagesOf(room).length;
+    const nm = matsOfRoom(room.slug).length, nn = notesOfRoom(room.slug).length;
+    const card = document.createElement('button');
+    card.className = 'room-card fade-in';
+    card.style.animationDelay = (idx * 0.04) + 's';
+    const cover = room.images[0] || (room.subs[0] && room.subs[0].images[0]) || '';
+    const floorTag = showFloor && FLOORS[room.floor] ? '<div class="room-card-floor">' + esc(FLOORS[room.floor].name) + '</div>' : '';
+    card.innerHTML =
+      '<div class="room-card-img">' + floorTag + '<img src="' + cover + '" alt="' + esc(room.name_tr) + '" loading="lazy" /></div>' +
+      '<div class="room-card-body">' +
+        '<div class="room-card-num">' + room.num + '</div>' +
+        '<div class="room-card-name">' + esc(room.name_tr) + '</div>' +
+        '<div class="room-card-meta">' +
+          '<span><strong>' + totalImgs + '</strong> Images</span>' +
+          (nm ? '<span><strong>' + nm + '</strong> Materials</span>' : '') +
+          (nn ? '<span><strong>' + nn + '</strong> Notes</span>' : '') +
+        '</div>' +
+        '<div class="room-card-arrow">→</div>' +
+      '</div>';
+    card.addEventListener('click', () => openRoom(room.slug));
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- MODAL ---------- */
+function setupModalEvents() {
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal' || e.target.classList.contains('modal-inner')) closeModal();
+  });
+  $$('#viewSwitch button').forEach(b => b.addEventListener('click', () => { currentView = b.dataset.view; renderModal(); }));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (closeTopSheet()) return;
+    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+    else if (document.getElementById('modal').classList.contains('open')) closeModal();
+  });
+}
+function openRoom(slug, view) {
+  currentRoom = ROOM[slug];
+  if (!currentRoom) return;
+  currentSubKey = currentRoom.images.length ? null : (currentRoom.subs[0] && currentRoom.subs[0].slug);
+  currentView = view || 'images';
+  renderModal();
+  const m = document.getElementById('modal');
+  m.style.display = 'block';
+  requestAnimationFrame(() => m.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  m.scrollTop = 0;
+}
+function closeModal() {
+  const m = document.getElementById('modal');
+  m.classList.remove('open');
+  setTimeout(() => { m.style.display = 'none'; }, 350);
+  document.body.style.overflow = '';
+}
+function renderModal() {
+  if (!currentRoom) return;
+  const r = currentRoom;
+  document.getElementById('modalEyebrow').textContent = 'SPACE ' + (r.num || '') + ' · ' + FLOORS[r.floor].name;
+  document.getElementById('modalTitle').textContent = r.name_tr;
+  const counts = { images: allImagesOf(r).length, materials: matsOfRoom(r.slug).length, notes: notesOfRoom(r.slug).length };
+  $$('#viewSwitch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === currentView);
+    b.setAttribute('aria-selected', b.dataset.view === currentView);
+    b.querySelector('span').textContent = counts[b.dataset.view];
+  });
+  const planWrap = document.getElementById('modalPlanWrap');
+  if (r.plan) { document.getElementById('modalPlan').src = r.plan; planWrap.style.display = ''; } else planWrap.style.display = 'none';
+
+  const tabsEl = document.getElementById('modalTabs');
+  tabsEl.innerHTML = '';
+  tabsEl.style.display = currentView === 'images' ? '' : 'none';
+  if (r.images.length > 0 || r.subs.length === 0) tabsEl.appendChild(modalTab(r.name_tr, r.images.length, null));
+  r.subs.forEach(sub => tabsEl.appendChild(modalTab(sub.name_tr, sub.images.length, sub.slug)));
+
+  const main = $('#modalMain');
+  if (currentView === 'images') renderGalleryPane(main);
+  else if (currentView === 'materials') renderRoomMaterials(main);
+  else renderRoomNotes(main);
+}
+function modalTab(name, n, key) {
+  const t = document.createElement('button');
+  t.className = 'modal-tab' + (currentSubKey === key ? ' active' : '');
+  t.innerHTML = '<span>' + esc(name) + '</span><span class="modal-tab-count">' + n + '</span>';
+  t.addEventListener('click', () => { currentSubKey = key; renderModal(); });
+  return t;
+}
+function groupImages() {
+  if (currentSubKey === null) return currentRoom.images;
+  const sub = currentRoom.subs.find(s => s.slug === currentSubKey);
+  return sub ? sub.images : [];
+}
+function renderGalleryPane(main) {
+  const imgs = groupImages();
+  currentImages = imgs;
+  main.innerHTML = '<div class="modal-gallery" id="modalGallery"></div>';
+  const galleryEl = $('#modalGallery');
+  imgs.forEach((src, i) => {
+    const nn = notesOfImage(src).length, nm = matsOfImage(src).length;
+    const item = document.createElement('div');
+    item.className = 'gallery-item fade-in';
+    item.tabIndex = 0;
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-label', 'Enlarge image ' + (i + 1));
+    item.style.animationDelay = (i * 0.03) + 's';
+    item.innerHTML = '<img src="' + src + '" alt="" loading="lazy" />' +
+      ((nn || nm) ? '<div class="badges">' + (nn ? '<span class="badge"><b>' + nn + '</b>' + (nn === 1 ? 'Note' : 'Notes') + '</span>' : '') + (nm ? '<span class="badge"><b>' + nm + '</b>' + (nm === 1 ? 'Material' : 'Materials') + '</span>' : '') + '</div>' : '');
+    item.addEventListener('click', () => openLightbox(i));
+    item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); } });
+    galleryEl.appendChild(item);
+  });
+}
+function renderRoomMaterials(main) {
+  const list = matsOfRoom(currentRoom.slug);
+  main.innerHTML = '<div class="pane-head"><p>' + (list.length ? list.length + ' selections used in this space. Tap a card for details.' : 'No material selections for this space yet.') + '</p></div><div class="mat-grid" id="roomMats"></div>';
+  const g = $('#roomMats');
+  list.forEach(m => g.appendChild(matCard(m)));
+}
+function renderRoomNotes(main) {
+  const list = notesOfRoom(currentRoom.slug);
+  main.innerHTML = '<div class="note-list" id="roomNotes"></div>';
+  const box = $('#roomNotes');
+  if (!list.length) box.innerHTML = '<p class="empty-note">No application notes for this space yet.</p>';
+  list.forEach(n => box.appendChild(noteEl(n)));
+}
+
+/* ---------- MATERIAL CARD ---------- */
+function matCard(m) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'mat-card';
+  const cv = coverOf(m);
+  const rooms = m.rooms.length ? m.rooms.map(roomLabel).filter((v, i, a) => a.indexOf(v) === i).join(' · ') : 'General';
+  b.innerHTML =
+    '<div class="ph">' + (cv ? '<img src="' + esc(cv) + '" alt="" loading="lazy" />' : '<em>No image</em>') + '</div>' +
+    '<div class="bd"><span class="eyebrow">' + esc(m.title) + '</span>' +
+    '<div class="ttl">' + esc(m.code) + '</div>' +
+    '<div class="where">' + esc(rooms) + '</div>' +
+    '<div class="chips">' + (m.tags || []).map(t => '<span class="chip">' + esc(t) + '</span>').join('') + '</div></div>';
+  b.addEventListener('click', () => openMaterial(m.id));
+  return b;
+}
+
+/* ---------- NOTE ---------- */
+function noteHtml(text) {
+  const t = esc(text); const i = t.indexOf(':');
+  return i > 0 && i < 60 ? '<strong>' + t.slice(0, i + 1) + '</strong>' + t.slice(i + 1) : t;
+}
+function noteEl(n, opt = {}) {
+  const d = document.createElement('div');
+  d.className = 'note' + (opt.noThumb || !n.image ? ' no-thumb' : '');
+  const thumb = n.image && !opt.noThumb ? '<button class="thumb" type="button" aria-label="Open linked image"><img src="' + esc(n.image) + '" alt="" loading="lazy" /></button>' : '';
+  d.innerHTML = thumb +
+    '<div><div class="txt">' + noteHtml(n.text) + '</div>' +
+    ((n.tags || []).length ? '<div class="meta">' + n.tags.map(t => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' : '') + '</div>';
+  if (thumb) d.querySelector('.thumb').addEventListener('click', () => openImage(n.image));
+  return d;
+}
+
+/* ---------- LIGHTBOX ---------- */
+function setupLightbox() {
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => navLightbox(-1));
+  document.getElementById('lbNext').addEventListener('click', () => navLightbox(1));
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('open') || $('.sheet')) return;
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+  });
+  document.getElementById('lightbox').addEventListener('click', (e) => { if (e.target.id === 'lightbox') closeLightbox(); });
+  $('#lbToggle').addEventListener('click', () => { lbPanelOpen = !lbPanelOpen; renderLbPanel(); });
+}
+function openLightbox(i) {
+  lightboxIdx = i;
+  showLightboxImg();
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  requestAnimationFrame(() => lb.classList.add('open'));
+}
+function openImage(path) {
+  const o = IMG_OWNER[path]; if (!o) return;
+  currentRoom = ROOM[o.room]; currentSubKey = o.sub;
+  const sub = o.sub && currentRoom.subs.find(s => s.slug === o.sub);
+  currentImages = sub ? sub.images : currentRoom.images;
+  lbPanelOpen = true;
+  openLightbox(o.i);
+}
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  setTimeout(() => { lb.style.display = 'none'; }, 300);
+}
+function navLightbox(dir) {
+  lightboxIdx = (lightboxIdx + dir + currentImages.length) % currentImages.length;
+  showLightboxImg();
+}
+function showLightboxImg() {
+  document.getElementById('lbImg').src = currentImages[lightboxIdx];
+  document.getElementById('lbIdx').textContent = lightboxIdx + 1;
+  document.getElementById('lbTotal').textContent = currentImages.length;
+  renderLbPanel();
+}
+function renderLbPanel() {
+  const p = currentImages[lightboxIdx]; if (!p) return;
+  const notes = notesOfImage(p), mats = matsOfImage(p);
+  const tot = notes.length + mats.length;
+  const lb = $('#lightbox'), tg = $('#lbToggle');
+  tg.hidden = tot === 0;
+  const open = lbPanelOpen && tot > 0;
+  lb.classList.toggle('panel-open', open);
+  tg.innerHTML = (open ? 'Close panel' : 'Notes · Materials') + (!open ? '<b>' + tot + '</b>' : '');
+  if (!open) return;
+  const o = IMG_OWNER[p] || {}; const r = ROOM[o.room];
+  const sub = r && o.sub ? r.subs.find(s => s.slug === o.sub) : null;
+  const panel = $('#lbPanel');
+  panel.innerHTML =
+    '<div><span class="eyebrow">Image ' + (lightboxIdx + 1) + ' / ' + currentImages.length + '</span><h4>' + esc(r ? r.name_tr : '') + (sub ? ' · ' + esc(sub.name_tr) : '') + '</h4></div>' +
+    (mats.length ? '<div class="sec"><div class="sec-h"><span class="eyebrow">Materials in this image</span></div><div id="lbMats"></div></div>' : '') +
+    (notes.length ? '<div class="sec"><div class="sec-h"><span class="eyebrow">Image notes</span></div><div class="note-list" id="lbNotes"></div></div>' : '');
+  mats.forEach(m => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'mini-mat';
+    b.innerHTML = '<span class="im">' + (coverOf(m) ? '<img src="' + esc(coverOf(m)) + '" alt="" />' : '') + '</span><span class="t">' + esc(m.code) + '<small>' + esc(m.title) + '</small></span><span></span>';
+    b.addEventListener('click', () => openMaterial(m.id));
+    $('#lbMats').appendChild(b);
+  });
+  notes.forEach(n => $('#lbNotes').appendChild(noteEl(n, { noThumb: true })));
+}
+
+/* ---------- SHEET ---------- */
+function openSheet(build) {
+  const s = document.createElement('div');
+  s.className = 'sheet';
+  s.innerHTML = '<div class="sheet-panel" role="dialog" aria-modal="true"></div>';
+  $('#sheetRoot').appendChild(s);
+  const panel = $('.sheet-panel', s);
+  s.addEventListener('mousedown', e => { if (e.target === s) s.remove(); });
+  build(panel, () => s.remove());
+  const f = panel.querySelector('button'); if (f) f.focus({ preventScroll: true });
+}
+function closeTopSheet() { const all = $$('.sheet'); if (!all.length) return false; all[all.length - 1].remove(); return true; }
+function closeAllSheets() { $$('.sheet').forEach(s => s.remove()); }
+function sheetHead(eyebrow, title, close) {
+  const h = document.createElement('div'); h.className = 'sheet-head';
+  h.innerHTML = '<div><span class="eyebrow">' + esc(eyebrow) + '</span><h3>' + esc(title) + '</h3></div><button class="sheet-close" type="button" aria-label="Close">✕</button>';
+  $('.sheet-close', h).addEventListener('click', close);
+  return h;
+}
+
+/* ---------- MATERIAL DETAIL ---------- */
+function openMaterial(id) {
+  const m = K.materials.find(x => x.id === id); if (!m) return;
+  openSheet((panel, close) => {
+    panel.appendChild(sheetHead(m.title, m.code, close));
+    const body = document.createElement('div'); body.className = 'sheet-body';
+    let sel = 0;
+    body.innerHTML =
+      '<div class="det"><div><div class="det-main">' + (m.images.length ? '<img id="detImg" alt="" />' : '<em class="empty-note">No image</em>') + '</div><div class="det-thumbs" id="detThumbs"></div></div>' +
+      '<div class="det-info">' +
+        '<div class="kv"><span class="eyebrow">Spaces</span><div class="room-links" id="detRooms"></div></div>' +
+        (m.location ? '<div class="kv"><span class="eyebrow">Where it is used</span><div>' + esc(m.location) + '</div></div>' : '') +
+        (m.quantity ? '<div class="kv"><span class="eyebrow">Quantity</span><div>' + esc(m.quantity) + '</div></div>' : '') +
+        (m.note ? '<div class="kv"><span class="eyebrow">Note</span><div>' + esc(m.note) + '</div></div>' : '') +
+        '<div class="kv"><span class="eyebrow">Tags</span><div class="chips">' + ((m.tags || []).map(t => '<button type="button" class="chip" data-t="' + esc(t) + '">' + esc(t) + '</button>').join('') || '—') + '</div></div>' +
+      '</div></div>' +
+      ((m.renders || []).length ? '<div class="kv"><span class="eyebrow">Shown in renders</span><div class="render-strip" id="detRenders"></div></div>' : '') +
+      (m.source ? '<p class="source">Source: ' + esc(m.source) + '</p>' : '');
+    panel.appendChild(body);
+    const thumbs = $('#detThumbs', body);
+    function showImg() {
+      if (!m.images.length) return;
+      $('#detImg', body).src = m.images[sel].src;
+      thumbs.innerHTML = m.images.map((im, i) => '<button type="button" class="' + (i === sel ? 'on' : '') + '" data-i="' + i + '"><img src="' + esc(im.src) + '" alt="" /><span>' + esc(im.label || '') + '</span></button>').join('');
+      $$('button', thumbs).forEach(b => b.addEventListener('click', () => { sel = +b.dataset.i; showImg(); }));
+    }
+    showImg();
+    const rl = $('#detRooms', body);
+    if (!m.rooms.length) rl.textContent = 'General · whole project';
+    m.rooms.forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.textContent = roomLabelFull(s); b.addEventListener('click', () => { closeAllSheets(); closeLightbox(); openRoom(s, 'materials'); }); rl.appendChild(b); });
+    const rs = $('#detRenders', body);
+    if (rs) m.renders.forEach(p => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<img src="' + esc(p) + '" alt="" loading="lazy" />'; b.addEventListener('click', () => { closeAllSheets(); openImage(p); }); rs.appendChild(b); });
+    $$('[data-t]', body).forEach(b => b.addEventListener('click', () => { closeAllSheets(); closeLightbox(); closeModal(); libState.tags = new Set([b.dataset.t]); renderLibrary(); scrollToSection('library'); }));
+  });
+}
+
+/* ---------- LIBRARY + NOTES BOARD ---------- */
+const libState = { q: '', room: '', tags: new Set(), mode: 'all' };
+const noteState = { q: '', room: '', tags: new Set(), mode: 'all' };
+function roomOptions(sel) {
+  sel.innerHTML = '<option value="">All spaces</option><option value="__general">General · whole project</option>' +
+    FLOORS.map((f, fi) => '<optgroup label="' + esc(f.name) + '">' + DATA.filter(r => r.floor === fi).map(r => '<option value="' + r.slug + '">' + esc(r.name_tr) + '</option>').join('') + '</optgroup>').join('');
+}
+function setupSections() {
+  roomOptions($('#libRoom')); roomOptions($('#noteRoom'));
+  const bind = (st, q, room, clear, section, render) => {
+    $(q).addEventListener('input', e => { st.q = e.target.value; render(); });
+    $(room).addEventListener('change', e => { st.room = e.target.value; render(); });
+    $(clear).addEventListener('click', () => { st.q = ''; st.room = ''; st.tags.clear(); $(q).value = ''; $(room).value = ''; render(); });
+    $$(section + ' .seg button').forEach(b => b.addEventListener('click', () => { st.mode = b.dataset.mode; $$(section + ' .seg button').forEach(x => x.classList.toggle('on', x === b)); render(); }));
+  };
+  bind(libState, '#libQ', '#libRoom', '#libClear', '#library', renderLibrary);
+  bind(noteState, '#noteQ', '#noteRoom', '#noteClear', '#notes', renderNotesBoard);
+  $$('[data-go]').forEach(b => b.addEventListener('click', () => scrollToSection(b.dataset.go)));
+}
+function scrollToSection(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function matchRoom(x, room) { return !room || (room === '__general' ? !x.rooms.length : x.rooms.includes(room)); }
+function matchTags(x, st) { if (!st.tags.size) return true; const t = x.tags || []; return st.mode === 'all' ? [...st.tags].every(y => t.includes(y)) : [...st.tags].some(y => t.includes(y)); }
+function drawTagChips(host, st, items, render) {
+  const cnt = new Map();
+  items.forEach(x => (x.tags || []).forEach(t => cnt.set(t, (cnt.get(t) || 0) + 1)));
+  st.tags.forEach(t => { if (!cnt.has(t)) cnt.set(t, 0); });
+  host.innerHTML = '';
+  [...cnt.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).forEach(([t, n]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (st.tags.has(t) ? ' on' : '');
+    b.setAttribute('aria-pressed', st.tags.has(t));
+    b.innerHTML = esc(t) + ' <span class="n">' + n + '</span>';
+    b.addEventListener('click', () => { st.tags.has(t) ? st.tags.delete(t) : st.tags.add(t); render(); });
+    host.appendChild(b);
+  });
+}
+function renderLibrary() {
+  const st = libState;
+  const base = K.materials.filter(m => matchRoom(m, st.room) && (!st.q || low([m.code, m.title, m.location, m.note, (m.tags || []).join(' ')].join(' ')).includes(low(st.q))));
+  const rows = base.filter(m => matchTags(m, st));
+  drawTagChips($('#libTags'), st, base, renderLibrary);
+  $('#libMeta').textContent = K.materials.length + ' Selections · ' + tagCounts().size + ' Tags';
+  $('#libCount').innerHTML = '<b>' + rows.length + '</b> / ' + K.materials.length + ' selections' + (st.tags.size ? ' · ' + [...st.tags].map(esc).join(st.mode === 'all' ? ' + ' : ' or ') : '');
+  const g = $('#libGrid'); g.innerHTML = '';
+  rows.forEach(m => g.appendChild(matCard(m)));
+  if (!rows.length) g.innerHTML = '<p class="empty-note">No selections match this filter. Remove a tag or switch to “Any”.</p>';
+}
+function renderNotesBoard() {
+  const st = noteState;
+  const base = K.notes.filter(n => matchRoom(n, st.room) && (!st.q || low(n.text + ' ' + (n.tags || []).join(' ')).includes(low(st.q))));
+  const rows = base.filter(n => matchTags(n, st));
+  drawTagChips($('#noteTags'), st, base, renderNotesBoard);
+  $('#noteMeta').textContent = K.notes.length + ' Notes · ' + new Set(K.notes.flatMap(n => n.rooms.length ? n.rooms : ['general'])).size + ' Spaces';
+  $('#noteCount').innerHTML = '<b>' + rows.length + '</b> / ' + K.notes.length + ' notes' + (st.tags.size ? ' · ' + [...st.tags].map(esc).join(st.mode === 'all' ? ' + ' : ' or ') : '');
+  const board = $('#noteBoard'); board.innerHTML = '';
+  const groups = [];
+  DATA.forEach(r => { const ns = rows.filter(n => n.rooms.includes(r.slug)); if (ns.length) groups.push({ r, ns }); });
+  const gen = rows.filter(n => !n.rooms.length); if (gen.length) groups.push({ r: null, ns: gen });
+  groups.forEach(({ r, ns }) => {
+    const g = document.createElement('div'); g.className = 'note-group';
+    g.innerHTML = '<h3>' + (r ? '<button type="button">' + esc(r.name_tr) + '</button><small>' + esc(FLOORS[r.floor].name) + ' · ' + ns.length + (ns.length === 1 ? ' note' : ' notes') + '</small>' : 'General <small>Whole project · ' + ns.length + ' notes</small>') + '</h3><div class="note-list"></div>';
+    if (r) $('h3 button', g).addEventListener('click', () => openRoom(r.slug, 'notes'));
+    const l = $('.note-list', g);
+    ns.forEach(n => l.appendChild(noteEl(n)));
+    board.appendChild(g);
+  });
+  if (!rows.length) board.innerHTML = '<p class="empty-note">No notes match this filter.</p>';
+}
+
+init();
+</script>
+</body>
+</html>
